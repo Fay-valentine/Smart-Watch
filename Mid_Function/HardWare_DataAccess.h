@@ -5,4 +5,49 @@
 #ifndef INC_10_WATCH_HARDWARE_DATAACCESS_H
 #define INC_10_WATCH_HARDWARE_DATAACCESS_H
 
+#define HW_USE_HARDWARE     1
+
+#if HW_USE_HARDWARE
+
+    #define HW_USE_RTC  1
+
+#endif
+
+#if HW_USE_RTC
+    #include "rtc.h"
+#endif
+
+
+/**
+  * @brief  HW RTC DateTime structure definition
+  */
+typedef struct
+{
+    uint8_t WeekDay;    /*!< Specifies the RTC Date WeekDay.
+                            This parameter can be a value of @ref RTC_WeekDay_Definitions */
+
+    uint8_t Month;      /*!< Specifies the RTC Date Month (in BCD format).
+                            This parameter can be a value of @ref RTC_Month_Date_Definitions */
+
+    uint8_t Date;       /*!< Specifies the RTC Date.
+                            This parameter must be a number between Min_Data = 1 and Max_Data = 31 */
+
+    uint8_t Year;       /*!< Specifies the RTC Date Year.
+                            This parameter must be a number between Min_Data = 0 and Max_Data = 99 */
+
+    uint8_t Hours;      /*!< Specifies the RTC Time Hour.
+                            This parameter must be a number between Min_Data = 0 and Max_Data = 12 if the RTC_HourFormat_12 is selected
+                            This parameter must be a number between Min_Data = 0 and Max_Data = 23 if the RTC_HourFormat_24 is selected */
+
+    uint8_t Minutes;    /*!< Specifies the RTC Time Minutes.
+                            This parameter must be a number between Min_Data = 0 and Max_Data = 59 */
+
+    uint8_t Seconds;    /*!< Specifies the RTC Time Seconds.
+                            This parameter must be a number between Min_Data = 0 and Max_Data = 59 */
+
+} HW_DateTimeTypeDef;
+
+
+
+
 #endif //INC_10_WATCH_HARDWARE_DATAACCESS_H
