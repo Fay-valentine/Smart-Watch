@@ -15,7 +15,7 @@
 #include "lvgl.h"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
-#include "ui.h"
+#include "PageManager.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -48,7 +48,7 @@ void HardwareInitTask(void *argument)
     lv_init();
     lv_port_disp_init();
     lv_port_indev_init();
-    ui_init();
+    Page_Init();    /* 页面栈接管首页加载，替代 SquareLine 生成的 ui_init()，避免双重加载/重复建屏 */
 
     xTaskResumeAll();
 		vTaskDelete(NULL);

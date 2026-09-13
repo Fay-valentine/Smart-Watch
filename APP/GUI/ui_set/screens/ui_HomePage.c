@@ -4,6 +4,7 @@
 // Project name: ui_HomePage
 
 #include "../ui.h"
+#include "PageManager.h"
 
 lv_obj_t * ui_HomePage = NULL;
 lv_obj_t * ui_Time = NULL;
@@ -14,6 +15,7 @@ lv_obj_t * ui_PhoneBar = NULL;
 lv_obj_t * ui_Phone = NULL;
 lv_obj_t * ui_Phone2 = NULL;
 lv_obj_t * ui_WatchBar = NULL;
+
 // event funtions
 
 // build funtions

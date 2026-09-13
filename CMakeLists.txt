@@ -54,12 +54,19 @@ set(SYSTEM_SOURCES
         System/delay.c
 )
 
-set(GUI_SOURCES
-        APP/GUI/ui_set/ui.c
-        APP/GUI/ui_set/ui_helpers.c
-        APP/GUI/ui_set/components/ui_comp_hook.c
-        APP/GUI/ui_set/screens/ui_HomePage.c
+set(GUI_SRC_DIRS
+        APP/GUI/ui_set
 )
+
+set(GUI_SOURCES "")
+foreach(_d ${GUI_SRC_DIRS})
+    file(GLOB_RECURSE _tmp CONFIGURE_DEPENDS
+            ${CMAKE_CURRENT_SOURCE_DIR}/${_d}/*.c)
+    list(APPEND GUI_SOURCES ${_tmp})
+endforeach()
+# SquareLine 自定义字体暂不参与编译（首页未引用，省约 50KB Flash）；
+# 以后 UI 用到 ui_font_Font16x4bpp / ui_font_MenuIconfont32 时删除下一行即可
+list(FILTER GUI_SOURCES EXCLUDE REGEX "/fonts/")
 
 
 
@@ -73,6 +80,7 @@ set(TASKS_SOURCES
 set(MID_FUNCTION_SOURCES
     Mid_Function/HardWare_DataAccess.c
     Mid_Function/PageManager.c
+    Mid_Function/Pages.c
 )
 
 set(LVGL_PORT_SOURCES

@@ -10,6 +10,7 @@
 extern "C" {
 #endif
 
+
 // SCREEN: ui_HomePage
 extern void ui_HomePage_screen_init(void);
 extern void ui_HomePage_screen_destroy(void);
@@ -22,7 +23,6 @@ extern lv_obj_t * ui_PhoneBar;
 extern lv_obj_t * ui_Phone;
 extern lv_obj_t * ui_Phone2;
 extern lv_obj_t * ui_WatchBar;
-// CUSTOM VARIABLES
 
 #ifdef __cplusplus
 } /*extern "C"*/
