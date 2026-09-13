@@ -1,0 +1,45 @@
+# ===== CLion / CMake 构建产物 =====
+build/
+cmake-build-*/
+out/
+CMakeLists.txt.user
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+
+# Ninja
+.ninja_*
+build.ninja
+rules.ninja
+
+# 交叉编译产物
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.obj
+*.o
+*.su
+*.d
+*.a
+
+# ===== 调试 / 烧录配置 =====
+.attach_pid*
+.openocd
+*.log
+
+# ===== IDE 相关 =====
+# CLion（.idea 按需保留部分配置，这里整体忽略）
+.idea/
+# VSCode
+.vscode/
+# STM32CubeMX 备份
+*.ioc.bak
+*.mxproject
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db
+desktop.ini
