@@ -143,6 +143,55 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef* rtcHandle)
 }
 
 /* USER CODE BEGIN 1 */
+/**
+ * @brief 基姆拉尔森公式计算周几
+ * @param y 年
+ * @param m 月
+ * @param d 日
+ * @param c 世纪
+ * @return 1-7 对应周日到周六
+ */
+uint8_t weekday_calculate(int y,int m,int d,int c)
+{
+  int w;
+  if (m == 1 || m == 2)
+  {y--, m += 12;}
+  w = y + y / 4 + c / 4  + 26*(m + 1)/10 + d - 1 - 2 * c;
+  while(w<0)
+    w+=7;
+  w%=7;
+  w=(w==0)?7:w;
+  return w;
+}
+
+void RTC_Set_Time(uint8_t hours, uint8_t minutes, uint8_t seconds)
+{
+  RTC_TimeTypeDef setTime={0};//需要设置为0
+  setTime.Hours=hours;
+  setTime.Minutes=minutes;
+  setTime.Seconds=seconds;
+
+  //设置时间并检验
+  if (HAL_RTC_SetTime(&hrtc,&setTime,RTC_FORMAT_BIN)!=HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+//date为几日
+void RTC_Set_Date(uint8_t year, uint8_t month, uint8_t date)
+{
+  RTC_DateTypeDef setDate={0};//需要设置为0
+  setDate.Year=year;
+  setDate.Month=month;
+  setDate.Date=date;
+
+  //设置日期并检验
+  if (HAL_RTC_SetDate(&hrtc,&setDate,RTC_FORMAT_BIN))
+  {
+    Error_Handler();
+  }
+}
 
 /* USER CODE END 1 */
 

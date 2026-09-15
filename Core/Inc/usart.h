@@ -35,6 +35,7 @@ extern "C" {
 extern UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN Private defines */
+extern DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE END Private defines */
 

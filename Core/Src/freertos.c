@@ -62,6 +62,23 @@ const osThreadAttr_t KeyTask_attributes = {
   .stack_size = 64 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for SerialTask */
+osThreadId_t SerialTaskHandle;
+const osThreadAttr_t SerialTask_attributes = {
+  .name = "SerialTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for SerialMutex */
+osMutexId_t SerialMutexHandle;
+const osMutexAttr_t SerialMutex_attributes = {
+  .name = "SerialMutex"
+};
+/* Definitions for SerialBinarySem */
+osSemaphoreId_t SerialBinarySemHandle;
+const osSemaphoreAttr_t SerialBinarySem_attributes = {
+  .name = "SerialBinarySem"
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -70,6 +87,7 @@ const osThreadAttr_t KeyTask_attributes = {
 
 void StartDefaultTask(void *argument);
 void StartKeyTask(void *argument);
+void StartSerialTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -97,10 +115,17 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
   User_Tasks_Init();
   /* USER CODE END Init */
+  /* Create the mutex(es) */
+  /* creation of SerialMutex */
+  SerialMutexHandle = osMutexNew(&SerialMutex_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
+
+  /* Create the semaphores(s) */
+  /* creation of SerialBinarySem */
+  SerialBinarySemHandle = osSemaphoreNew(1, 1, &SerialBinarySem_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -120,6 +145,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of KeyTask */
   KeyTaskHandle = osThreadNew(StartKeyTask, NULL, &KeyTask_attributes);
+
+  /* creation of SerialTask */
+  SerialTaskHandle = osThreadNew(StartSerialTask, NULL, &SerialTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -165,6 +193,24 @@ __weak void StartKeyTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartKeyTask */
+}
+
+/* USER CODE BEGIN Header_StartSerialTask */
+/**
+* @brief Function implementing the SerialTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSerialTask */
+__weak void StartSerialTask(void *argument)
+{
+  /* USER CODE BEGIN StartSerialTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartSerialTask */
 }
 
 /* Private application code --------------------------------------------------*/

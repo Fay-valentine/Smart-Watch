@@ -41,7 +41,9 @@ extern RTC_HandleTypeDef hrtc;
 void MX_RTC_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+uint8_t weekday_calculate(int y,int m,int d,int c);
+void RTC_Set_Time(uint8_t hours, uint8_t minutes, uint8_t seconds);
+void RTC_Set_Date(uint8_t year, uint8_t month, uint8_t date);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

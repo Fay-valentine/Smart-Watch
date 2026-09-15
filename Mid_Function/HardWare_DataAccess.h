@@ -48,6 +48,19 @@ typedef struct
 } HW_DateTimeTypeDef;
 
 
+typedef struct
+{
+    uint8_t(*CalculateWeekDay)(uint8_t setyear, uint8_t setmonth, uint8_t setday, uint8_t century);
+    void(*SetDate)(uint8_t year, uint8_t month, uint8_t date);
+    void(*SetTime)(uint8_t hours, uint8_t minutes, uint8_t seconds);
+    void(*GetDateTime)(HW_DateTimeTypeDef* nowDateTime);
+}HW_RTC_InterfaceTypeDef;
 
+typedef struct
+{
+    HW_RTC_InterfaceTypeDef RealTimeClock;
+}HW_InterfaceTypeDef;
+
+extern HW_InterfaceTypeDef HWInterface;//硬件接口
 
 #endif //INC_10_WATCH_HARDWARE_DATAACCESS_H

@@ -75,12 +75,17 @@ set(TASKS_SOURCES
         APP/Tasks/Src/user_LVGLTask.c
         APP/Tasks/Src/user_TasksInit.c
         APP/Tasks/Src/Key_Task.c
+        APP/Tasks/Src/SerialTask.c
 )
 
 set(MID_FUNCTION_SOURCES
     Mid_Function/HardWare_DataAccess.c
     Mid_Function/PageManager.c
     Mid_Function/Pages.c
+)
+
+set(UI_FUNCTION_SOURCES
+        APP/GUI/UI_Function/Src/HomePage_RTC.c
 )
 
 set(LVGL_PORT_SOURCES
@@ -109,6 +114,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
         ${LVGL_PORT_SOURCES}
         ${LVGL_SRC_SOURCES}
         ${MID_FUNCTION_SOURCES}
+        ${UI_FUNCTION_SOURCES}
 )
 
 
@@ -121,6 +127,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         BSP/TOUCH
         System
         APP/Tasks/Inc
+        APP/GUI/UI_Function/Inc
         APP/GUI/ui_set
         Mid_Function
         LVGL

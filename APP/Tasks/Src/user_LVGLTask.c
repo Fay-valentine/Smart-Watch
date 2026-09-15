@@ -42,11 +42,12 @@ void LvHandlerTask(void *argument)
   uint32_t _time = 1; // default delay time
   while(1)
   {
-		_time = lv_timer_handler();
+    _time = lv_timer_handler();
     // 限制最大休眠时间，保证按键队列被及时读取
-    if(_time > 30) {
+    if(_time > 30)
+    {
         _time = 30;
     }
     osDelay(_time);
-	}
+  }
 }

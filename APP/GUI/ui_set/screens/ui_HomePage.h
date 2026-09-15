@@ -10,12 +10,10 @@
 extern "C" {
 #endif
 
-
 // SCREEN: ui_HomePage
 extern void ui_HomePage_screen_init(void);
 extern void ui_HomePage_screen_destroy(void);
 extern lv_obj_t * ui_HomePage;
-extern lv_obj_t * ui_Time;
 extern lv_obj_t * ui_Date;
 extern lv_obj_t * ui_Week;
 extern lv_obj_t * ui_Batterylevel;
@@ -23,6 +21,12 @@ extern lv_obj_t * ui_PhoneBar;
 extern lv_obj_t * ui_Phone;
 extern lv_obj_t * ui_Phone2;
 extern lv_obj_t * ui_WatchBar;
+extern lv_obj_t * ui_TimeHour;
+extern lv_obj_t * ui_TimeColon;
+extern lv_obj_t * ui_TimeMinute;
+extern lv_obj_t * ui_Month;
+extern lv_obj_t * ui_DateBackslash;
+// CUSTOM VARIABLES
 
 #ifdef __cplusplus
 } /*extern "C"*/
