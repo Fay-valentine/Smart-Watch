@@ -41,7 +41,7 @@ void HomePage_RTC_Stop(void)
 {
     if (HomePage_RTC_Timer!=NULL)
     {
-        lv_timer_del(HomePage_RTC_Timer);
+        lv_timer_del(HomePage_RTC_Timer);//删除首页时间刷新timer
         HomePage_RTC_Timer=NULL;
     }
 }

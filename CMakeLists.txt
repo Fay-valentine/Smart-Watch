@@ -64,9 +64,6 @@ foreach(_d ${GUI_SRC_DIRS})
             ${CMAKE_CURRENT_SOURCE_DIR}/${_d}/*.c)
     list(APPEND GUI_SOURCES ${_tmp})
 endforeach()
-# SquareLine 自定义字体暂不参与编译（首页未引用，省约 50KB Flash）；
-# 以后 UI 用到 ui_font_Font16x4bpp / ui_font_MenuIconfont32 时删除下一行即可
-list(FILTER GUI_SOURCES EXCLUDE REGEX "/fonts/")
 
 
 
@@ -76,6 +73,7 @@ set(TASKS_SOURCES
         APP/Tasks/Src/user_TasksInit.c
         APP/Tasks/Src/Key_Task.c
         APP/Tasks/Src/SerialTask.c
+        APP/Tasks/Src/PageBack_Task.c
 )
 
 set(MID_FUNCTION_SOURCES
@@ -86,6 +84,7 @@ set(MID_FUNCTION_SOURCES
 
 set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/HomePage_RTC.c
+        APP/GUI/UI_Function/Src/HomePage_Events.c
 )
 
 set(LVGL_PORT_SOURCES

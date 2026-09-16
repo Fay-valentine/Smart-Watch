@@ -19,6 +19,7 @@ extern "C" {
 ///////////////////// SCREENS ////////////////////
 
 #include "screens/ui_HomePage.h"
+#include "screens/ui_MenuPage.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -26,6 +27,10 @@ extern "C" {
 // EVENTS
 
 extern lv_obj_t * ui____initial_actions0;
+
+// FONTS
+LV_FONT_DECLARE(ui_font_Font16);
+LV_FONT_DECLARE(ui_font_MenuIconfont);
 
 // UI INIT
 void ui_init(void);

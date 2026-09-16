@@ -53,14 +53,14 @@ osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
   .stack_size = 64 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for KeyTask */
 osThreadId_t KeyTaskHandle;
 const osThreadAttr_t KeyTask_attributes = {
   .name = "KeyTask",
   .stack_size = 64 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for SerialTask */
 osThreadId_t SerialTaskHandle;
@@ -68,6 +68,13 @@ const osThreadAttr_t SerialTask_attributes = {
   .name = "SerialTask",
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for PageBackTask */
+osThreadId_t PageBackTaskHandle;
+const osThreadAttr_t PageBackTask_attributes = {
+  .name = "PageBackTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for SerialMutex */
 osMutexId_t SerialMutexHandle;
@@ -88,6 +95,7 @@ const osSemaphoreAttr_t SerialBinarySem_attributes = {
 void StartDefaultTask(void *argument);
 void StartKeyTask(void *argument);
 void StartSerialTask(void *argument);
+void StartPageBackTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -148,6 +156,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of SerialTask */
   SerialTaskHandle = osThreadNew(StartSerialTask, NULL, &SerialTask_attributes);
+
+  /* creation of PageBackTask */
+  PageBackTaskHandle = osThreadNew(StartPageBackTask, NULL, &PageBackTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -211,6 +222,24 @@ __weak void StartSerialTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartSerialTask */
+}
+
+/* USER CODE BEGIN Header_StartPageBackTask */
+/**
+* @brief Function implementing the PageBackTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartPageBackTask */
+__weak void StartPageBackTask(void *argument)
+{
+  /* USER CODE BEGIN StartPageBackTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartPageBackTask */
 }
 
 /* Private application code --------------------------------------------------*/

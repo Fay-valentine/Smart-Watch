@@ -27,5 +27,7 @@ extern PageStack_t page_stack;
 void Page_Init(void);
 Page_t* Page_Get_NowPage(void);
 void Page_Load(Page_t* newPage);
+void Page_Back(void);
+void Page_Back_to_Bottom(void);
 
 #endif //INC_10_WATCH_PAGEMANAGER_H

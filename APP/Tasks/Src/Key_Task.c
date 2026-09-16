@@ -2,6 +2,11 @@
 
 #include "key.h"
 #include "main.h"
+#include "PageManager.h"
+#include "Pages.h"
+
+
+
 
 /**
  * @brief 按键回退
@@ -16,12 +21,11 @@ void StartKeyTask(void *argument)
         key_value=KeyScan(0);
         switch (key_value)
         {
-            case KEY1_VALUE:
-                //回退页面
+            case KEY1_VALUE://发送回退页面的任务通知
+                osThreadFlagsSet(PageBackTaskHandle,PAGE_BACK_FLAG);
                 break;
         }
-
-        osDelay(1);
+        osDelay(10);
     }
     /* USER CODE END StartKeyTask */
 }

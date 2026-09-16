@@ -8,7 +8,9 @@
 #include "user_LVGLTask.h"
 
 //gui
+#include "Key_Task.h"
 #include "lvgl.h"
+#include "PageManager.h"
 #include "ui.h"
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,6 +45,18 @@ void LvHandlerTask(void *argument)
   while(1)
   {
     _time = lv_timer_handler();
+
+    //按键回退
+    uint32_t page_flags = osThreadFlagsGet();// 非阻塞读
+    if (page_flags & PAGE_BACK_FLAG)
+    {
+      osThreadFlagsClear(PAGE_BACK_FLAG);
+      if (Page_Get_NowPage()->page_obj != &ui_HomePage)
+      {
+        Page_Back();
+      }
+    }
+
     // 限制最大休眠时间，保证按键队列被及时读取
     if(_time > 30)
     {

@@ -9,5 +9,6 @@
  * 这样重新导出 UI 文件覆盖 screens 目录下的 .c/.h 时页面注册不会丢失。
  */
 extern Page_t HomePage;
+extern Page_t MenuPage;
 
 #endif //INC_10_WATCH_PAGES_H

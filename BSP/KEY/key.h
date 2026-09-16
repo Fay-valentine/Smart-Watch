@@ -13,9 +13,6 @@ extern "C" {
 
 uint8_t KeyScan(uint8_t mode);
 
-
-
-
 #ifdef __cplusplus
 }
 #endif
