@@ -4,6 +4,7 @@
 #include "HomePage_Events.h"
 #include "MenuPage_Event.h"
 #include "SettingsPage_Event.h"
+#include "ControlCenterPage_Event.h"
 
 /* 页面注册表：新增页面时照抄一行即可 */
 
@@ -43,6 +44,7 @@ Page_t MenuPage = {MenuPage_Init, MenuPage_Destroy, &ui_MenuPage};
 void ControlCenterPage_Init(void)
 {
     ui_ControlCenterPage_screen_init();
+    ControlCenterPage_Events_Init();
 }
 
 void ControlCenterPage_Destroy(void)

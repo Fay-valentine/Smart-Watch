@@ -5,16 +5,28 @@
 #ifndef INC_10_WATCH_HARDWARE_DATAACCESS_H
 #define INC_10_WATCH_HARDWARE_DATAACCESS_H
 
+#include <stdbool.h>
+
 #define HW_USE_HARDWARE     1
 
 #if HW_USE_HARDWARE
 
-    #define HW_USE_RTC  1
+    #define HW_USE_RTC          1
+    #define HW_USE_BLUETOOTH    1
+    #define HW_USE_LCD    1
 
 #endif
 
 #if HW_USE_RTC
     #include "rtc.h"
+#endif
+
+#if HW_USE_BLUETOOTH
+    #include "Bluetooth.h"
+#endif
+
+#if HW_USE_LCD
+#include "lcd_init.h"
 #endif
 
 
@@ -56,10 +68,29 @@ typedef struct
     void(*GetDateTime)(HW_DateTimeTypeDef* nowDateTime);
 }HW_RTC_InterfaceTypeDef;
 
+
+typedef struct
+{
+    void(*Set)(bool on);      //开/关蓝牙
+    bool(*GetState)(void);    //获取当前开关状态，用于UI回显
+}HW_Bluetooth_InterfaceTypedef;
+
+
+typedef struct
+{
+    void(*Set_Light)(uint8_t dc);
+    uint8_t(*Get_Brightness)(void);   //获取当前背光占空比，用于UI回显
+}HW_LCD_InterfaceTypedef;
+
+
 typedef struct
 {
     HW_RTC_InterfaceTypeDef RealTimeClock;
+    HW_Bluetooth_InterfaceTypedef Bluetooth;
+    HW_LCD_InterfaceTypedef LCD;
 }HW_InterfaceTypeDef;
+
+
 
 extern HW_InterfaceTypeDef HWInterface;//硬件接口
 

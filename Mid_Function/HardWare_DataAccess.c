@@ -6,10 +6,10 @@
 
 /**
  * @brief 基姆拉尔森公式计算周几
- * @param y 年
- * @param m 月
- * @param d 日
- * @param c 世纪
+ * @param setyear 年
+ * @param setmonth 月
+ * @param setday 日
+ * @param century 世纪
  * @return 1-7 对应周日到周六
  */
 uint8_t HW_weekday_calculate(uint8_t setyear, uint8_t setmonth, uint8_t setday, uint8_t century)
@@ -73,6 +73,32 @@ void HW_RTC_Get_Date_Time(HW_DateTimeTypeDef* nowDateTime)
 
 }
 
+
+#if HW_USE_BLUETOOTH
+void HW_Bluetooth_Set(bool on)
+{
+    Bluetooth_Set(on);
+}
+
+bool HW_Bluetooth_GetState(void)
+{
+    return Bluetooth_GetState();
+}
+#endif
+
+
+#if HW_USE_LCD
+void HW_LCD_Set_Light(uint8_t dc)
+{
+    LCD_Set_Light(dc);
+}
+
+uint8_t HW_LCD_Get_Brightness(void)
+{
+    return LCD_Get_Backlight();
+}
+#endif
+
 //这里实现了接口
 HW_InterfaceTypeDef HWInterface={
     .RealTimeClock = {
@@ -80,5 +106,13 @@ HW_InterfaceTypeDef HWInterface={
         .SetDate = HW_RTC_Set_Date,
         .SetTime = HW_RTC_Set_Time,
         .GetDateTime = HW_RTC_Get_Date_Time,
+    },
+    .Bluetooth = {
+        .Set = HW_Bluetooth_Set,
+        .GetState = HW_Bluetooth_GetState,
+    },
+    .LCD = {
+        .Set_Light = HW_LCD_Set_Light,
+        .Get_Brightness = HW_LCD_Get_Brightness,
     },
 };

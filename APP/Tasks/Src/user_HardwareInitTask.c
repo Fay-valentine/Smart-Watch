@@ -16,6 +16,7 @@
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
 #include "PageManager.h"
+#include "tim.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -40,8 +41,8 @@ void HardwareInitTask(void *argument)
 	//delay
     delay_init();
 
-	//key
-	//Key_Port_Init();
+	//PWM_LCD
+	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
 
     // ui
     // LVGL and disp init

@@ -1,0 +1,10 @@
+//
+// Created by a1191 on 2026/9/18.
+//
+
+#ifndef INC_10_WATCH_CONTROLCENTERPAGE_EVENT_H
+#define INC_10_WATCH_CONTROLCENTERPAGE_EVENT_H
+
+void ControlCenterPage_Events_Init(void);
+
+#endif //INC_10_WATCH_CONTROLCENTERPAGE_EVENT_H

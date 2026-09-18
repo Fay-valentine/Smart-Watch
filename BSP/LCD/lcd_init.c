@@ -1,7 +1,11 @@
 #include "lcd_init.h"
 #include "delay.h"
 #include "spi.h"
-//#include "tim.h"
+#include "tim.h"
+
+#define PWM_PERIOD 300
+
+uint8_t backlight = 50;/* 背光占空比%唯一状态源,供UI回显 */
 
 /******************************************************************************
       函数说明：LCD端口初始化
@@ -11,18 +15,14 @@
 void LCD_GPIO_Init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure = {0};
-	
+
 	__HAL_RCC_GPIOC_CLK_ENABLE();
  	__HAL_RCC_GPIOB_CLK_ENABLE();
 	__HAL_RCC_GPIOD_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-	
-	GPIO_InitStructure.Pin = BLK_PIN;	 
- 	GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP; 		 //推挽输出
-	GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;//速度50MHz
- 	HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);	  //初始化GPIOA
- 	HAL_GPIO_WritePin(GPIOA, BLK_PIN, GPIO_PIN_SET);
-	
+
+	/* 注意:BLK_PIN(PA15)是TIM2_CH1 PWM背光脚,由MX_TIM2_Init配置为AF,
+	   这里绝不能再把PA15重配成普通GPIO,否则背光与PWM断开,亮度调节失效 */
+
 	GPIO_InitStructure.Pin = RES_PIN;	 
  	GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP; 		 //推挽输出
 	GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;//速度50MHz
@@ -141,8 +141,16 @@ void LCD_Address_Set(u16 x1,u16 y1,u16 x2,u16 y2)
 ******************************************************************************/
 void LCD_Set_Light(uint8_t dc)
 {
-//	if(dc>=5 && dc<=100)
-//		__HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_3,dc*PWM_PERIOD/100);
+	if(dc>=5 && dc<=100)/* 范围外的值忽略,backlight与CCR保持一致 */
+	{
+		__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_1,dc*PWM_PERIOD/100);
+		backlight = dc;/* 记录状态,UI回显用 */
+	}
+}
+
+uint8_t LCD_Get_Backlight(void)
+{
+	return backlight;
 }
 
 
@@ -153,8 +161,8 @@ void LCD_Set_Light(uint8_t dc)
 ******************************************************************************/
 void LCD_Close_Light(void)
 {
-	//__HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_3,0);
-	//HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
+	__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_1,0);
+	HAL_TIM_PWM_Stop(&htim2,TIM_CHANNEL_1);
 }
 
 
@@ -165,7 +173,7 @@ void LCD_Close_Light(void)
 ******************************************************************************/
 void LCD_Open_Light(void)
 {
-	//HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
 }
 
 /******************************************************************************
@@ -282,9 +290,11 @@ void LCD_Init(void)
 	LCD_WR_DATA8(0x20);
 	LCD_WR_DATA8(0x23);
 
-	LCD_WR_REG(0x21); 
+	LCD_WR_REG(0x21);
 
-	LCD_WR_REG(0x29); 
+	LCD_WR_REG(0x29);
+
+	LCD_Set_Light(backlight);/* 显示开后再应用初始亮度,避免上电黑屏 */
 }
 
 

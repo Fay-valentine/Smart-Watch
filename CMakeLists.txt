@@ -48,6 +48,7 @@ set(BSP_SOURCES
         BSP/LCD/lcd.c
         BSP/LCD/lcd_init.c
         BSP/TOUCH/CST816.c
+        BSP/Bluetooth/Bluetooth.c
 )
 
 set(SYSTEM_SOURCES
@@ -87,6 +88,7 @@ set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/HomePage_Events.c
         APP/GUI/UI_Function/Src/MenuPage_Event.c
         APP/GUI/UI_Function/Src/SettingsPage_Event.c
+        APP/GUI/UI_Function/Src/ControlCenterPage_Event.c
 )
 
 set(LVGL_PORT_SOURCES
@@ -128,6 +130,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         BSP/KEY
         BSP/LCD
         BSP/TOUCH
+        BSP/Bluetooth
         System
         APP/Tasks/Inc
         APP/GUI/UI_Function/Inc
