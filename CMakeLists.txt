@@ -85,6 +85,8 @@ set(MID_FUNCTION_SOURCES
 set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/HomePage_RTC.c
         APP/GUI/UI_Function/Src/HomePage_Events.c
+        APP/GUI/UI_Function/Src/MenuPage_Event.c
+        APP/GUI/UI_Function/Src/SettingsPage_Event.c
 )
 
 set(LVGL_PORT_SOURCES
@@ -116,6 +118,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
         ${UI_FUNCTION_SOURCES}
 )
 
+set_source_files_properties(${LVGL_SRC_SOURCES} PROPERTIES COMPILE_OPTIONS "-Os")
+set_source_files_properties(${GUI_SOURCES}       PROPERTIES COMPILE_OPTIONS "-Os")
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE

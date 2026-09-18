@@ -10,5 +10,15 @@
  */
 extern Page_t HomePage;
 extern Page_t MenuPage;
+extern Page_t ControlCenterPage;
+extern Page_t StopwatchPage;
+extern Page_t EnvironmentPage;
+extern Page_t StepsCountPage;
+extern Page_t SettingsPage;
+extern Page_t SetDatePage;
+extern Page_t SetTimePage;
+extern Page_t ScreenOffPage;
+extern Page_t AboutPage;
+extern Page_t MessagePage;
 
 #endif //INC_10_WATCH_PAGES_H

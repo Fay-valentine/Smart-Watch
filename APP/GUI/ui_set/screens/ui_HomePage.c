@@ -38,7 +38,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_Date, "15");
     lv_obj_set_style_text_color(ui_Date, lv_color_hex(0xAEAEB2), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Date, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Date, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Date, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Week = lv_label_create(ui_HomePage);
     lv_obj_set_width(ui_Week, LV_SIZE_CONTENT);   /// 1
@@ -49,7 +49,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_Week, "Wednesday");
     lv_obj_set_style_text_color(ui_Week, lv_color_hex(0xAEAEB2), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Week, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Week, &lv_font_montserrat_16, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Week, &ui_font_Font16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Batterylevel = lv_label_create(ui_HomePage);
     lv_obj_set_width(ui_Batterylevel, LV_SIZE_CONTENT);   /// 1
@@ -60,6 +60,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_Batterylevel, "Battery level");
     lv_obj_set_style_text_color(ui_Batterylevel, lv_color_hex(0x357DBC), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Batterylevel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Batterylevel, &ui_font_Font16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_PhoneBar = lv_bar_create(ui_HomePage);
     lv_bar_set_value(ui_PhoneBar, 35, LV_ANIM_OFF);
@@ -91,7 +92,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_Phone, "Phone");
     lv_obj_set_style_text_color(ui_Phone, lv_color_hex(0xE2DFDF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Phone, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Phone, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Phone, &ui_font_Font16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Phone2 = lv_label_create(ui_HomePage);
     lv_obj_set_width(ui_Phone2, LV_SIZE_CONTENT);   /// 1
@@ -102,7 +103,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_Phone2, "Watch");
     lv_obj_set_style_text_color(ui_Phone2, lv_color_hex(0xE2DFDF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Phone2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Phone2, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Phone2, &ui_font_Font16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_WatchBar = lv_bar_create(ui_HomePage);
     lv_bar_set_value(ui_WatchBar, 60, LV_ANIM_OFF);
@@ -131,7 +132,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_TimeHour, "12");
     lv_obj_set_style_text_color(ui_TimeHour, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_TimeHour, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_TimeHour, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_TimeHour, &ui_font_Font48, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_TimeColon = lv_label_create(ui_HomePage);
     lv_obj_set_width(ui_TimeColon, LV_SIZE_CONTENT);   /// 1
@@ -142,7 +143,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_TimeColon, ":");
     lv_obj_set_style_text_color(ui_TimeColon, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_TimeColon, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_TimeColon, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_TimeColon, &ui_font_Font48, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_TimeMinute = lv_label_create(ui_HomePage);
     lv_obj_set_width(ui_TimeMinute, LV_SIZE_CONTENT);   /// 1
@@ -153,7 +154,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_TimeMinute, "35");
     lv_obj_set_style_text_color(ui_TimeMinute, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_TimeMinute, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_TimeMinute, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_TimeMinute, &ui_font_Font48, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Month = lv_label_create(ui_HomePage);
     lv_obj_set_width(ui_Month, LV_SIZE_CONTENT);   /// 1
@@ -164,7 +165,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_Month, "10");
     lv_obj_set_style_text_color(ui_Month, lv_color_hex(0xAEAEB2), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Month, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Month, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Month, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_DateBackslash = lv_label_create(ui_HomePage);
     lv_obj_set_width(ui_DateBackslash, LV_SIZE_CONTENT);   /// 1
@@ -175,7 +176,7 @@ void ui_HomePage_screen_init(void)
     lv_label_set_text(ui_DateBackslash, "\\");
     lv_obj_set_style_text_color(ui_DateBackslash, lv_color_hex(0xAEAEB2), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_DateBackslash, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_DateBackslash, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_DateBackslash, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 }
 

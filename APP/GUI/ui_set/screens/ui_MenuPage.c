@@ -57,10 +57,12 @@ void ui_MenuPage_screen_init(void)
     lv_obj_set_style_bg_opa(ui_MenuPanel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ui_MenuPanel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_opa(ui_MenuPanel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_row(ui_MenuPanel, 22, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_MenuPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_EnvironmentBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_EnvironmentBTN, 200);
-    lv_obj_set_height(ui_EnvironmentBTN, 50);
+    lv_obj_set_height(ui_EnvironmentBTN, 60);
     lv_obj_set_x(ui_EnvironmentBTN, 130);
     lv_obj_set_y(ui_EnvironmentBTN, 71);
     lv_obj_set_align(ui_EnvironmentBTN, LV_ALIGN_CENTER);
@@ -92,7 +94,7 @@ void ui_MenuPage_screen_init(void)
 
     ui_StopwatchBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_StopwatchBTN, 200);
-    lv_obj_set_height(ui_StopwatchBTN, 50);
+    lv_obj_set_height(ui_StopwatchBTN, 60);
     lv_obj_set_x(ui_StopwatchBTN, 125);
     lv_obj_set_y(ui_StopwatchBTN, 95);
     lv_obj_set_align(ui_StopwatchBTN, LV_ALIGN_CENTER);
@@ -126,7 +128,7 @@ void ui_MenuPage_screen_init(void)
 
     ui_TimekeepingBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_TimekeepingBTN, 200);
-    lv_obj_set_height(ui_TimekeepingBTN, 50);
+    lv_obj_set_height(ui_TimekeepingBTN, 60);
     lv_obj_set_x(ui_TimekeepingBTN, 130);
     lv_obj_set_y(ui_TimekeepingBTN, 71);
     lv_obj_set_align(ui_TimekeepingBTN, LV_ALIGN_CENTER);
@@ -158,7 +160,7 @@ void ui_MenuPage_screen_init(void)
 
     ui_AlarmBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_AlarmBTN, 200);
-    lv_obj_set_height(ui_AlarmBTN, 50);
+    lv_obj_set_height(ui_AlarmBTN, 60);
     lv_obj_set_x(ui_AlarmBTN, 130);
     lv_obj_set_y(ui_AlarmBTN, 71);
     lv_obj_set_align(ui_AlarmBTN, LV_ALIGN_CENTER);
@@ -190,7 +192,7 @@ void ui_MenuPage_screen_init(void)
 
     ui_StepsBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_StepsBTN, 200);
-    lv_obj_set_height(ui_StepsBTN, 50);
+    lv_obj_set_height(ui_StepsBTN, 60);
     lv_obj_set_x(ui_StepsBTN, 130);
     lv_obj_set_y(ui_StepsBTN, 71);
     lv_obj_set_align(ui_StepsBTN, LV_ALIGN_CENTER);
@@ -222,7 +224,7 @@ void ui_MenuPage_screen_init(void)
 
     ui_BluetoothBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_BluetoothBTN, 200);
-    lv_obj_set_height(ui_BluetoothBTN, 50);
+    lv_obj_set_height(ui_BluetoothBTN, 60);
     lv_obj_set_x(ui_BluetoothBTN, 130);
     lv_obj_set_y(ui_BluetoothBTN, 71);
     lv_obj_set_align(ui_BluetoothBTN, LV_ALIGN_CENTER);
@@ -254,7 +256,7 @@ void ui_MenuPage_screen_init(void)
 
     ui_MessageBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_MessageBTN, 200);
-    lv_obj_set_height(ui_MessageBTN, 50);
+    lv_obj_set_height(ui_MessageBTN, 60);
     lv_obj_set_x(ui_MessageBTN, 130);
     lv_obj_set_y(ui_MessageBTN, 71);
     lv_obj_set_align(ui_MessageBTN, LV_ALIGN_CENTER);
@@ -286,7 +288,7 @@ void ui_MenuPage_screen_init(void)
 
     ui_SettingsBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_SettingsBTN, 200);
-    lv_obj_set_height(ui_SettingsBTN, 50);
+    lv_obj_set_height(ui_SettingsBTN, 60);
     lv_obj_set_x(ui_SettingsBTN, 130);
     lv_obj_set_y(ui_SettingsBTN, 71);
     lv_obj_set_align(ui_SettingsBTN, LV_ALIGN_CENTER);
@@ -318,7 +320,7 @@ void ui_MenuPage_screen_init(void)
 
     ui_AboutBTN = lv_btn_create(ui_MenuPanel);
     lv_obj_set_width(ui_AboutBTN, 200);
-    lv_obj_set_height(ui_AboutBTN, 50);
+    lv_obj_set_height(ui_AboutBTN, 60);
     lv_obj_set_x(ui_AboutBTN, 130);
     lv_obj_set_y(ui_AboutBTN, 71);
     lv_obj_set_align(ui_AboutBTN, LV_ALIGN_CENTER);

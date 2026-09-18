@@ -20,6 +20,16 @@ extern "C" {
 
 #include "screens/ui_HomePage.h"
 #include "screens/ui_MenuPage.h"
+#include "screens/ui_StopwatchPage.h"
+#include "screens/ui_EnvironmentPage.h"
+#include "screens/ui_StepsCountPage.h"
+#include "screens/ui_SettingsPage.h"
+#include "screens/ui_ControlCenterPage.h"
+#include "screens/ui_SetDatePage.h"
+#include "screens/ui_SetTimePage.h"
+#include "screens/ui_ScreenOffPage.h"
+#include "screens/ui_AboutPage.h"
+#include "screens/ui_MessagePage.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -29,8 +39,18 @@ extern "C" {
 extern lv_obj_t * ui____initial_actions0;
 
 // FONTS
+LV_FONT_DECLARE(ui_font_EnvironmentIconfont32);
 LV_FONT_DECLARE(ui_font_Font16);
 LV_FONT_DECLARE(ui_font_MenuIconfont);
+LV_FONT_DECLARE(ui_font_SettingsIconfont32);
+LV_FONT_DECLARE(ui_font_StepsCountIconfont64);
+LV_FONT_DECLARE(ui_font_StopwatchIconfont32);
+LV_FONT_DECLARE(ui_font_BrightnessIconfont);
+LV_FONT_DECLARE(ui_font_Font20);
+LV_FONT_DECLARE(ui_font_Font22);
+LV_FONT_DECLARE(ui_font_Font38);
+LV_FONT_DECLARE(ui_font_Font40);
+LV_FONT_DECLARE(ui_font_Font48);
 
 // UI INIT
 void ui_init(void);

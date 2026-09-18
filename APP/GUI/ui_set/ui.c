@@ -35,6 +35,16 @@ void ui_init(void)
     lv_disp_set_theme(dispp, theme);
     ui_HomePage_screen_init();
     ui_MenuPage_screen_init();
+    ui_StopwatchPage_screen_init();
+    ui_EnvironmentPage_screen_init();
+    ui_StepsCountPage_screen_init();
+    ui_SettingsPage_screen_init();
+    ui_ControlCenterPage_screen_init();
+    ui_SetDatePage_screen_init();
+    ui_SetTimePage_screen_init();
+    ui_ScreenOffPage_screen_init();
+    ui_AboutPage_screen_init();
+    ui_MessagePage_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_HomePage);
 }
@@ -43,4 +53,14 @@ void ui_destroy(void)
 {
     ui_HomePage_screen_destroy();
     ui_MenuPage_screen_destroy();
+    ui_StopwatchPage_screen_destroy();
+    ui_EnvironmentPage_screen_destroy();
+    ui_StepsCountPage_screen_destroy();
+    ui_SettingsPage_screen_destroy();
+    ui_ControlCenterPage_screen_destroy();
+    ui_SetDatePage_screen_destroy();
+    ui_SetTimePage_screen_destroy();
+    ui_ScreenOffPage_screen_destroy();
+    ui_AboutPage_screen_destroy();
+    ui_MessagePage_screen_destroy();
 }

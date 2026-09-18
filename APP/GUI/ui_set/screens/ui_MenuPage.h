@@ -3,14 +3,14 @@
 // LVGL version: 8.3.11
 // Project name: ui_HomePage
 
-#ifndef UI_MENU_H
-#define UI_MENU_H
+#ifndef UI_MENUPAGE_H
+#define UI_MENUPAGE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-// SCREEN: ui_Menu
+// SCREEN: ui_MenuPage
 extern void ui_MenuPage_screen_init(void);
 extern void ui_MenuPage_screen_destroy(void);
 extern lv_obj_t * ui_MenuPage;
