@@ -89,6 +89,9 @@ set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/MenuPage_Event.c
         APP/GUI/UI_Function/Src/SettingsPage_Event.c
         APP/GUI/UI_Function/Src/ControlCenterPage_Event.c
+        APP/GUI/UI_Function/Src/StopwatchPage_Event.c
+        APP/GUI/UI_Function/Src/SetDatePage_Event.c
+        APP/GUI/UI_Function/Src/SetTimePage_Event.c
 )
 
 set(LVGL_PORT_SOURCES

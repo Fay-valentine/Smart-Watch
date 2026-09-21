@@ -22,11 +22,11 @@ void ui_ScreenOffPage_screen_init(void)
 
     ui_ScreenOffRoller = lv_roller_create(ui_ScreenOffPage);
     lv_roller_set_options(ui_ScreenOffRoller, "15s\n30s\n60s\n2min\n5min\n10min\n30min\n1hour\nnever",
-                          LV_ROLLER_MODE_INFINITE);
+                          LV_ROLLER_MODE_NORMAL);
     lv_obj_set_width(ui_ScreenOffRoller, 100);
     lv_obj_set_height(ui_ScreenOffRoller, 100);
     lv_obj_set_x(ui_ScreenOffRoller, 0);
-    lv_obj_set_y(ui_ScreenOffRoller, -30);
+    lv_obj_set_y(ui_ScreenOffRoller, -40);
     lv_obj_set_align(ui_ScreenOffRoller, LV_ALIGN_CENTER);
     lv_obj_set_style_text_font(ui_ScreenOffRoller, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_ScreenOffRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -44,9 +44,9 @@ void ui_ScreenOffPage_screen_init(void)
 
     ui_ConfirmBTNInOff = lv_btn_create(ui_ScreenOffPage);
     lv_obj_set_width(ui_ConfirmBTNInOff, 240);
-    lv_obj_set_height(ui_ConfirmBTNInOff, 50);
+    lv_obj_set_height(ui_ConfirmBTNInOff, 90);
     lv_obj_set_x(ui_ConfirmBTNInOff, 0);
-    lv_obj_set_y(ui_ConfirmBTNInOff, 115);
+    lv_obj_set_y(ui_ConfirmBTNInOff, 95);
     lv_obj_set_align(ui_ConfirmBTNInOff, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ConfirmBTNInOff, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ConfirmBTNInOff, LV_OBJ_FLAG_SCROLLABLE);      /// Flags

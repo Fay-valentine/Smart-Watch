@@ -28,6 +28,13 @@ static void HomePage_RTC_Fresh_cb(lv_timer_t* timer);
  */
 void HomePage_RTC_Start(void)
 {
+    //使用哨兵，每次初始化首页，都对时间日期进行重绘
+    //防止缓存的时间，日期value和RTC的相同（不会进行修改），而首页时间日期又被重建为写死的值
+    ui_TimeHourValue    = 0xFF;  // 哨兵：与任何合法时/分/月/日(≤59/≤31)都不等
+    ui_TimeMinuteValue  = 0xFF;
+    ui_DateMonthValue   = 0xFF;
+    ui_DateDayValue     = 0xFF;
+    ui_DateWeekdayValue = 0xFF;
     if (HomePage_RTC_Timer==NULL)
     {
         HomePage_RTC_Timer=lv_timer_create(HomePage_RTC_Fresh_cb,500, NULL);
@@ -80,7 +87,7 @@ static void HomePage_RTC_Fresh_cb(lv_timer_t* timer)
             ui_DateDayValue=DateTime.Date;//日
             ui_DateWeekdayValue=DateTime.WeekDay;//星期
 
-            sprintf(value_str,"%2d",ui_DateMonthValue);
+            sprintf(value_str,"%02d",ui_DateMonthValue);
             lv_label_set_text(ui_Month,value_str);
 
             sprintf(value_str,"%02d",ui_DateDayValue);

@@ -140,9 +140,11 @@ void Page_Back(void)
         return;
     }
 
-    page_stack_pop(&page_stack);//弹出当前页面
+    page_stack.pages[page_stack.top]->deinit();//先deinit当前页面（进行一些退出操作，不删除页面）
 
-    //切换到上一个页面
+    page_stack_pop(&page_stack);//再弹出当前页面
+
+    //最后切换到上一个页面
     page_stack.pages[page_stack.top]->init();
     lv_scr_load_anim(*page_stack.pages[page_stack.top]->page_obj,LV_SCR_LOAD_ANIM_OVER_RIGHT,150,0,true);
 }

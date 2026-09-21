@@ -8,6 +8,13 @@
 
 extern lv_timer_t* HomePage_RTC_Timer;
 
+extern uint8_t ui_TimeHourValue;
+extern uint8_t ui_TimeMinuteValue;
+
+extern uint8_t ui_DateMonthValue;
+extern uint8_t ui_DateDayValue;
+extern uint8_t ui_DateWeekdayValue;
+
 void HomePage_RTC_Start(void);
 void HomePage_RTC_Stop(void);
 

@@ -71,11 +71,11 @@ void StartSerialTask(void *argument)
         }
 
 
-        //循环发送时间
-        HWInterface.RealTimeClock.GetDateTime(&nowDateTime);
-        //2026-9-15  15:22:55
-        Serial_Printf("%d-%d-%d  %d:%d:%d week:%d",nowDateTime.Year,nowDateTime.Month,nowDateTime.Date,
-                                               nowDateTime.Hours,nowDateTime.Minutes,nowDateTime.Seconds,nowDateTime.WeekDay);
+        // //循环发送时间
+        // HWInterface.RealTimeClock.GetDateTime(&nowDateTime);
+        // //2026-9-15  15:22:55
+        // Serial_Printf("%d-%d-%d  %d:%d:%d week:%d",nowDateTime.Year,nowDateTime.Month,nowDateTime.Date,
+        //                                        nowDateTime.Hours,nowDateTime.Minutes,nowDateTime.Seconds,nowDateTime.WeekDay);
     }
     /* USER CODE END StartSerialTask */
 }

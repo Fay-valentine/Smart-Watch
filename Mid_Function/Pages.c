@@ -5,6 +5,9 @@
 #include "MenuPage_Event.h"
 #include "SettingsPage_Event.h"
 #include "ControlCenterPage_Event.h"
+#include "SetDatePage_Event.h"
+#include "SetTimePage_Event.h"
+#include "StopwatchPage_Event.h"
 
 /* 页面注册表：新增页面时照抄一行即可 */
 
@@ -59,11 +62,13 @@ Page_t ControlCenterPage = {ControlCenterPage_Init, ControlCenterPage_Destroy, &
 void StopwatchPage_Init(void)
 {
     ui_StopwatchPage_screen_init();
+    ui_StopwatchPage_stopwatch_Init();
+    StopwatchPage_Events_Init();
 }
 
 void StopwatchPage_Destroy(void)
 {
-
+    StopwatchPage_TimerStop();
 }
 
 Page_t StopwatchPage = {StopwatchPage_Init, StopwatchPage_Destroy, &ui_StopwatchPage};
@@ -116,6 +121,7 @@ Page_t SettingsPage = {SettingsPage_Init, SettingsPage_Destroy, &ui_SettingsPage
 void SetDatePage_Init(void)
 {
     ui_SetDatePage_screen_init();
+    SetDatePage_Events_Init();
 }
 
 void SetDatePage_Destroy(void)
@@ -130,6 +136,7 @@ Page_t SetDatePage = {SetDatePage_Init, SetDatePage_Destroy, &ui_SetDatePage};
 void SetTimePage_Init(void)
 {
     ui_SetTimePage_screen_init();
+    SetTimePage_Events_Init();
 }
 
 void SetTimePage_Destroy(void)

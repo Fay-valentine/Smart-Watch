@@ -24,11 +24,11 @@ void ui_SetTimePage_screen_init(void)
     ui_HourRoller = lv_roller_create(ui_SetTimePage);
     lv_roller_set_options(ui_HourRoller,
                           "00\n01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23",
-                          LV_ROLLER_MODE_INFINITE);
+                          LV_ROLLER_MODE_NORMAL);
     lv_obj_set_width(ui_HourRoller, 100);
     lv_obj_set_height(ui_HourRoller, 100);
     lv_obj_set_x(ui_HourRoller, -55);
-    lv_obj_set_y(ui_HourRoller, -30);
+    lv_obj_set_y(ui_HourRoller, -40);
     lv_obj_set_align(ui_HourRoller, LV_ALIGN_CENTER);
     lv_obj_set_style_text_font(ui_HourRoller, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_HourRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -47,11 +47,11 @@ void ui_SetTimePage_screen_init(void)
     ui_MinuteRoller = lv_roller_create(ui_SetTimePage);
     lv_roller_set_options(ui_MinuteRoller,
                           "00\n01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58\n59",
-                          LV_ROLLER_MODE_INFINITE);
+                          LV_ROLLER_MODE_NORMAL);
     lv_obj_set_width(ui_MinuteRoller, 100);
     lv_obj_set_height(ui_MinuteRoller, 100);
     lv_obj_set_x(ui_MinuteRoller, 55);
-    lv_obj_set_y(ui_MinuteRoller, -30);
+    lv_obj_set_y(ui_MinuteRoller, -40);
     lv_obj_set_align(ui_MinuteRoller, LV_ALIGN_CENTER);
     lv_obj_set_style_text_font(ui_MinuteRoller, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_MinuteRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -69,9 +69,9 @@ void ui_SetTimePage_screen_init(void)
 
     ui_ConfirmBTNInTime = lv_btn_create(ui_SetTimePage);
     lv_obj_set_width(ui_ConfirmBTNInTime, 240);
-    lv_obj_set_height(ui_ConfirmBTNInTime, 50);
+    lv_obj_set_height(ui_ConfirmBTNInTime, 90);
     lv_obj_set_x(ui_ConfirmBTNInTime, 0);
-    lv_obj_set_y(ui_ConfirmBTNInTime, 115);
+    lv_obj_set_y(ui_ConfirmBTNInTime, 95);
     lv_obj_set_align(ui_ConfirmBTNInTime, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ConfirmBTNInTime, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ConfirmBTNInTime, LV_OBJ_FLAG_SCROLLABLE);      /// Flags

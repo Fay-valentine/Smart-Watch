@@ -149,7 +149,7 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef* rtcHandle)
  * @param m 月
  * @param d 日
  * @param c 世纪
- * @return 1-7 对应周日到周六
+ * @return 1-7 对应周一到周日
  */
 uint8_t weekday_calculate(int y,int m,int d,int c)
 {
@@ -185,9 +185,13 @@ void RTC_Set_Date(uint8_t year, uint8_t month, uint8_t date)
   setDate.Year=year;
   setDate.Month=month;
   setDate.Date=date;
+  //WeekDay 必须为 1~7，0 在参考手册里是 forbidden
+  //weekday_calculate 返回 1=周一 ... 7=周日，正好是 HAL 需要的编码
+  setDate.WeekDay = weekday_calculate(year, month, date, 20); //20 世纪 -> 20xx 年
+
 
   //设置日期并检验
-  if (HAL_RTC_SetDate(&hrtc,&setDate,RTC_FORMAT_BIN))
+  if (HAL_RTC_SetDate(&hrtc,&setDate,RTC_FORMAT_BIN)!=HAL_OK)
   {
     Error_Handler();
   }

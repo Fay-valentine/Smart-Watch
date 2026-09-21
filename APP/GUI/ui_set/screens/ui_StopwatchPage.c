@@ -102,8 +102,8 @@ void ui_StopwatchPage_screen_init(void)
     lv_obj_set_style_text_font(ui_ColonLabel2, &ui_font_Font38, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_StartStopBTN = lv_btn_create(ui_StopwatchPage);
-    lv_obj_set_width(ui_StartStopBTN, 50);
-    lv_obj_set_height(ui_StartStopBTN, 50);
+    lv_obj_set_width(ui_StartStopBTN, 80);
+    lv_obj_set_height(ui_StartStopBTN, 80);
     lv_obj_set_x(ui_StartStopBTN, -50);
     lv_obj_set_y(ui_StartStopBTN, 75);
     lv_obj_set_align(ui_StartStopBTN, LV_ALIGN_CENTER);
@@ -124,8 +124,8 @@ void ui_StopwatchPage_screen_init(void)
     lv_obj_set_style_text_font(ui_StartIconfont, &ui_font_StopwatchIconfont32, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ResetStopwacthBTN = lv_btn_create(ui_StopwatchPage);
-    lv_obj_set_width(ui_ResetStopwacthBTN, 50);
-    lv_obj_set_height(ui_ResetStopwacthBTN, 50);
+    lv_obj_set_width(ui_ResetStopwacthBTN, 80);
+    lv_obj_set_height(ui_ResetStopwacthBTN, 80);
     lv_obj_set_x(ui_ResetStopwacthBTN, 50);
     lv_obj_set_y(ui_ResetStopwacthBTN, 75);
     lv_obj_set_align(ui_ResetStopwacthBTN, LV_ALIGN_CENTER);

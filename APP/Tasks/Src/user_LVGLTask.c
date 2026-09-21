@@ -13,6 +13,7 @@
 #include "PageManager.h"
 #include "ui.h"
 
+#include "StopwatchPage_Event.h"
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/
@@ -31,6 +32,8 @@ void TaskTickHook(void)
 {
 	//to increase the LVGL tick
 	lv_tick_inc(1);
+
+  Stopwatch_TimeRefresh();
 }
 
 

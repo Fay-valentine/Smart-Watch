@@ -23,11 +23,11 @@ void ui_SetDatePage_screen_init(void)
     lv_obj_set_style_bg_opa(ui_SetDatePage, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_YearRoller = lv_roller_create(ui_SetDatePage);
-    lv_roller_set_options(ui_YearRoller, "2020\n2021\n2022\n2023\n2024\n2025\n2026\n2027", LV_ROLLER_MODE_INFINITE);
+    lv_roller_set_options(ui_YearRoller, "2020\n2021\n2022\n2023\n2024\n2025\n2026\n2027", LV_ROLLER_MODE_NORMAL);
     lv_obj_set_height(ui_YearRoller, 100);
     lv_obj_set_width(ui_YearRoller, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_x(ui_YearRoller, -65);
-    lv_obj_set_y(ui_YearRoller, -30);
+    lv_obj_set_y(ui_YearRoller, -40);
     lv_obj_set_align(ui_YearRoller, LV_ALIGN_CENTER);
     lv_obj_set_style_text_font(ui_YearRoller, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_YearRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -44,11 +44,11 @@ void ui_SetDatePage_screen_init(void)
     lv_obj_set_style_outline_pad(ui_YearRoller, 0, LV_PART_SELECTED | LV_STATE_DEFAULT);
 
     ui_MonthRoller = lv_roller_create(ui_SetDatePage);
-    lv_roller_set_options(ui_MonthRoller, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12", LV_ROLLER_MODE_INFINITE);
+    lv_roller_set_options(ui_MonthRoller, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12", LV_ROLLER_MODE_NORMAL);
     lv_obj_set_height(ui_MonthRoller, 100);
     lv_obj_set_width(ui_MonthRoller, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_x(ui_MonthRoller, 5);
-    lv_obj_set_y(ui_MonthRoller, -30);
+    lv_obj_set_y(ui_MonthRoller, -40);
     lv_obj_set_align(ui_MonthRoller, LV_ALIGN_CENTER);
     lv_obj_set_style_text_font(ui_MonthRoller, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_MonthRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -67,11 +67,11 @@ void ui_SetDatePage_screen_init(void)
     ui_DayRoller = lv_roller_create(ui_SetDatePage);
     lv_roller_set_options(ui_DayRoller,
                           "01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31",
-                          LV_ROLLER_MODE_INFINITE);
+                          LV_ROLLER_MODE_NORMAL);
     lv_obj_set_height(ui_DayRoller, 100);
     lv_obj_set_width(ui_DayRoller, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_x(ui_DayRoller, 65);
-    lv_obj_set_y(ui_DayRoller, -30);
+    lv_obj_set_y(ui_DayRoller, -40);
     lv_obj_set_align(ui_DayRoller, LV_ALIGN_CENTER);
     lv_obj_set_style_text_font(ui_DayRoller, &ui_font_Font20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_DayRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -89,9 +89,9 @@ void ui_SetDatePage_screen_init(void)
 
     ui_ConfirmBTNInDate = lv_btn_create(ui_SetDatePage);
     lv_obj_set_width(ui_ConfirmBTNInDate, 240);
-    lv_obj_set_height(ui_ConfirmBTNInDate, 50);
+    lv_obj_set_height(ui_ConfirmBTNInDate, 90);
     lv_obj_set_x(ui_ConfirmBTNInDate, 0);
-    lv_obj_set_y(ui_ConfirmBTNInDate, 115);
+    lv_obj_set_y(ui_ConfirmBTNInDate, 95);
     lv_obj_set_align(ui_ConfirmBTNInDate, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_ConfirmBTNInDate, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_clear_flag(ui_ConfirmBTNInDate, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
