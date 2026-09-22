@@ -76,6 +76,13 @@ const osThreadAttr_t PageBackTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for MsgInbox_Task */
+osThreadId_t MsgInbox_TaskHandle;
+const osThreadAttr_t MsgInbox_Task_attributes = {
+  .name = "MsgInbox_Task",
+  .stack_size = 256 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 /* Definitions for SerialMutex */
 osMutexId_t SerialMutexHandle;
 const osMutexAttr_t SerialMutex_attributes = {
@@ -96,6 +103,7 @@ void StartDefaultTask(void *argument);
 void StartKeyTask(void *argument);
 void StartSerialTask(void *argument);
 void StartPageBackTask(void *argument);
+void StartMsgInboxTask(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -159,6 +167,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of PageBackTask */
   PageBackTaskHandle = osThreadNew(StartPageBackTask, NULL, &PageBackTask_attributes);
+
+  /* creation of MsgInbox_Task */
+  MsgInbox_TaskHandle = osThreadNew(StartMsgInboxTask, NULL, &MsgInbox_Task_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -240,6 +251,24 @@ __weak void StartPageBackTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartPageBackTask */
+}
+
+/* USER CODE BEGIN Header_StartMsgInboxTask */
+/**
+* @brief Function implementing the MsgInbox_Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartMsgInboxTask */
+__weak void StartMsgInboxTask(void *argument)
+{
+  /* USER CODE BEGIN StartMsgInboxTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartMsgInboxTask */
 }
 
 /* Private application code --------------------------------------------------*/

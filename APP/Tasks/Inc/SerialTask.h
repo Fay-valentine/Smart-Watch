@@ -9,4 +9,6 @@
 extern osMutexId_t SerialMutexHandle;   //用于管理串口资源
 extern osSemaphoreId_t SerialBinarySemHandle;//用于管理串口收发是否完成
 
+void Serial_Printf(const char* fmt, ...);
+
 #endif //INC_10_WATCH_SERIALTASK_H

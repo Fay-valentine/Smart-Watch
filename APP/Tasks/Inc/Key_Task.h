@@ -7,7 +7,7 @@
 
 #include "cmsis_os2.h"
 
-#define PAGE_BACK_FLAG   (1U<<0)
+
 
 extern osThreadId_t PageBackTaskHandle;
 

@@ -9,8 +9,11 @@
 #include <stdarg.h>
 #include "HardWare_DataAccess.h"
 #include "Bluetooth.h"
+#include "MessagePage_Inbox.h"
 
-char rxBuf[128];
+#define RX_BUF_SIZE 256
+
+char rxBuf[RX_BUF_SIZE];
 
 void Serial_Send(uint8_t* data,uint16_t len)
 {
@@ -71,11 +74,11 @@ void StartSerialTask(void *argument)
         }
 
 
-        // //循环发送时间
-        // HWInterface.RealTimeClock.GetDateTime(&nowDateTime);
-        // //2026-9-15  15:22:55
-        // Serial_Printf("%d-%d-%d  %d:%d:%d week:%d",nowDateTime.Year,nowDateTime.Month,nowDateTime.Date,
-        //                                        nowDateTime.Hours,nowDateTime.Minutes,nowDateTime.Seconds,nowDateTime.WeekDay);
+        //循环发送时间
+        HWInterface.RealTimeClock.GetDateTime(&nowDateTime);
+        //2026-9-15  15:22:55
+        Serial_Printf("%d-%d-%d  %d:%d:%d week:%d",nowDateTime.Year,nowDateTime.Month,nowDateTime.Date,
+                                               nowDateTime.Hours,nowDateTime.Minutes,nowDateTime.Seconds,nowDateTime.WeekDay);
     }
     /* USER CODE END StartSerialTask */
 }
@@ -95,6 +98,9 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
     {
         if (Bluetooth_GetState()) //只有蓝牙开时，才重新开启接收（ISR里只读volatile bool，不调线程API）
         {
+            //将接收到的消息拷贝到消息收件箱中
+            MessagePage_Inbox_CopyMsgFromISR(&message_page_inbox,rxBuf,Size);
+            //重新开启DMA接收，并关闭DMA接收过半中断
             HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t*)rxBuf, sizeof(rxBuf));
             __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
         }

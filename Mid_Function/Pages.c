@@ -5,6 +5,7 @@
 #include "MenuPage_Event.h"
 #include "SettingsPage_Event.h"
 #include "ControlCenterPage_Event.h"
+#include "MessagePage_Inbox.h"
 #include "SetDatePage_Event.h"
 #include "SetTimePage_Event.h"
 #include "StopwatchPage_Event.h"
@@ -179,6 +180,7 @@ Page_t AboutPage = {AboutPage_Init, AboutPage_Destroy, &ui_AboutPage};
 void MessagePage_Init(void)
 {
     ui_MessagePage_screen_init();
+    MessagePage_render(&message_page_inbox);
 }
 
 void MessagePage_Destroy(void)

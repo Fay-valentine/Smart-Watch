@@ -10,7 +10,11 @@
 //gui
 #include "Key_Task.h"
 #include "lvgl.h"
+#include "MessagePage_Inbox.h"
+#include "Message_Inbox_Task.h"
+#include "PageBack_Task.h"
 #include "PageManager.h"
+#include "Pages.h"
 #include "ui.h"
 
 #include "StopwatchPage_Event.h"
@@ -58,6 +62,18 @@ void LvHandlerTask(void *argument)
       {
         Page_Back();
       }
+    }
+
+    //消息页面刷新
+    uint32_t msg_flags = osThreadFlagsGet();
+    if (msg_flags & MSG_INBOX_CHANGED_FLAG)
+    {
+      osThreadFlagsClear(MSG_INBOX_CHANGED_FLAG);
+      if (Page_Get_NowPage() == &MessagePage)
+      {
+        MessagePage_render(&message_page_inbox);
+      }
+
     }
 
     // 限制最大休眠时间，保证按键队列被及时读取

@@ -8,7 +8,8 @@ extern "C" {
 #include "FreeRTOS.h"
 #include "cmsis_os.h"
 
-
+    extern osThreadId_t HardwareInitTaskHandle;
+    extern osThreadId_t LvHandlerTaskHandle;
 void User_Tasks_Init(void);
 
 #ifdef __cplusplus
