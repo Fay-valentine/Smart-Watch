@@ -32,7 +32,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+extern volatile uint8_t g_key1_flag;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -52,7 +52,7 @@ void MemManage_Handler(void);
 void BusFault_Handler(void);
 void UsageFault_Handler(void);
 void DebugMon_Handler(void);
-void RTC_WKUP_IRQHandler(void);
+void EXTI0_IRQHandler(void);
 void TIM1_TRG_COM_TIM11_IRQHandler(void);
 void USART1_IRQHandler(void);
 void DMA2_Stream2_IRQHandler(void);

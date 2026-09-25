@@ -88,6 +88,11 @@ bool HW_Bluetooth_GetState(void)
 
 
 #if HW_USE_LCD
+void HW_LCD_Init(void)
+{
+    LCD_Init();
+}
+
 void HW_LCD_Set_Light(uint8_t dc)
 {
     LCD_Set_Light(dc);
@@ -96,6 +101,21 @@ void HW_LCD_Set_Light(uint8_t dc)
 uint8_t HW_LCD_Get_Brightness(void)
 {
     return LCD_Get_Backlight();
+}
+
+void HW_LCD_LightDown(void)
+{
+    LCD_LightDown();
+}
+
+void HW_LCD_Light_Open(void)
+{
+    LCD_Open_Light();
+}
+
+void HW_LCD_Close_Light(void)
+{
+    LCD_Close_Light();
 }
 #endif
 
@@ -112,7 +132,11 @@ HW_InterfaceTypeDef HWInterface={
         .GetState = HW_Bluetooth_GetState,
     },
     .LCD = {
+        .Init = HW_LCD_Init,
         .Set_Light = HW_LCD_Set_Light,
         .Get_Brightness = HW_LCD_Get_Brightness,
+        .LightDown = HW_LCD_LightDown,
+        .Light_Close = HW_LCD_Close_Light,
+        .Light_Open = HW_LCD_Light_Open,
     },
 };

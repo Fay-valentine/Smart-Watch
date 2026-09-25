@@ -153,6 +153,10 @@ uint8_t LCD_Get_Backlight(void)
 	return backlight;
 }
 
+void LCD_LightDown(void)
+{
+	__HAL_TIM_SetCompare(&htim2,TIM_CHANNEL_1,LCD_LIGHTOFF_BRIGHTNESS*PWM_PERIOD/100);
+}
 
 /******************************************************************************
       函数说明：LCD关闭背光

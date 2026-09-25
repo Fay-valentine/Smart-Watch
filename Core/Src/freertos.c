@@ -81,7 +81,33 @@ osThreadId_t MsgInbox_TaskHandle;
 const osThreadAttr_t MsgInbox_Task_attributes = {
   .name = "MsgInbox_Task",
   .stack_size = 256 * 4,
+  .priority = (osPriority_t) osPriorityLow7,
+};
+/* Definitions for IdleMonitorTask */
+osThreadId_t IdleMonitorTaskHandle;
+const osThreadAttr_t IdleMonitorTask_attributes = {
+  .name = "IdleMonitorTask",
+  .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for Sleep_Task */
+osThreadId_t Sleep_TaskHandle;
+const osThreadAttr_t Sleep_Task_attributes = {
+  .name = "Sleep_Task",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for WWDOG_Task */
+osThreadId_t WWDOG_TaskHandle;
+const osThreadAttr_t WWDOG_Task_attributes = {
+  .name = "WWDOG_Task",
+  .stack_size = 64 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for IdleTimer */
+osTimerId_t IdleTimerHandle;
+const osTimerAttr_t IdleTimer_attributes = {
+  .name = "IdleTimer"
 };
 /* Definitions for SerialMutex */
 osMutexId_t SerialMutexHandle;
@@ -104,6 +130,10 @@ void StartKeyTask(void *argument);
 void StartSerialTask(void *argument);
 void StartPageBackTask(void *argument);
 void StartMsgInboxTask(void *argument);
+void StartIdleMonitorTask(void *argument);
+void StartSleepTask(void *argument);
+void StartWWDOGTask(void *argument);
+void IdleTimerCallback(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -147,8 +177,13 @@ void MX_FREERTOS_Init(void) {
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
 
+  /* Create the timer(s) */
+  /* creation of IdleTimer */
+  IdleTimerHandle = osTimerNew(IdleTimerCallback, osTimerPeriodic, NULL, &IdleTimer_attributes);
+
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
+  osTimerStart(IdleTimerHandle, 100);//100ms
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
@@ -170,6 +205,15 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of MsgInbox_Task */
   MsgInbox_TaskHandle = osThreadNew(StartMsgInboxTask, NULL, &MsgInbox_Task_attributes);
+
+  /* creation of IdleMonitorTask */
+  IdleMonitorTaskHandle = osThreadNew(StartIdleMonitorTask, NULL, &IdleMonitorTask_attributes);
+
+  /* creation of Sleep_Task */
+  Sleep_TaskHandle = osThreadNew(StartSleepTask, NULL, &Sleep_Task_attributes);
+
+  /* creation of WWDOG_Task */
+  WWDOG_TaskHandle = osThreadNew(StartWWDOGTask, NULL, &WWDOG_Task_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -269,6 +313,68 @@ __weak void StartMsgInboxTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartMsgInboxTask */
+}
+
+/* USER CODE BEGIN Header_StartIdleMonitorTask */
+/**
+* @brief Function implementing the IdleMonitorTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartIdleMonitorTask */
+__weak void StartIdleMonitorTask(void *argument)
+{
+  /* USER CODE BEGIN StartIdleMonitorTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartIdleMonitorTask */
+}
+
+/* USER CODE BEGIN Header_StartSleepTask */
+/**
+* @brief Function implementing the Sleep_Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSleepTask */
+__weak void StartSleepTask(void *argument)
+{
+  /* USER CODE BEGIN StartSleepTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartSleepTask */
+}
+
+/* USER CODE BEGIN Header_StartWWDOGTask */
+/**
+* @brief Function implementing the WWDOG_Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartWWDOGTask */
+__weak void StartWWDOGTask(void *argument)
+{
+  /* USER CODE BEGIN StartWWDOGTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartWWDOGTask */
+}
+
+/* IdleTimerCallback function */
+__weak void IdleTimerCallback(void *argument)
+{
+  /* USER CODE BEGIN IdleTimerCallback */
+
+  /* USER CODE END IdleTimerCallback */
 }
 
 /* Private application code --------------------------------------------------*/

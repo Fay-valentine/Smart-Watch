@@ -6,6 +6,7 @@
 #include "SettingsPage_Event.h"
 #include "ControlCenterPage_Event.h"
 #include "MessagePage_Inbox.h"
+#include "ScreenOffPage_Event.h"
 #include "SetDatePage_Event.h"
 #include "SetTimePage_Event.h"
 #include "StopwatchPage_Event.h"
@@ -148,10 +149,11 @@ void SetTimePage_Destroy(void)
 Page_t SetTimePage = {SetTimePage_Init, SetTimePage_Destroy, &ui_SetTimePage};
 
 
-//息屏页
+//熄屏页
 void ScreenOffPage_Init(void)
 {
     ui_ScreenOffPage_screen_init();
+    ScreenOffPage_Event_Init();
 }
 
 void ScreenOffPage_Destroy(void)

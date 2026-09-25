@@ -8,6 +8,8 @@
 #include "user_LVGLTask.h"
 
 //gui
+#include "HomePage_RTC.h"
+#include "IdleMeasure_Task.h"
 #include "Key_Task.h"
 #include "lvgl.h"
 #include "MessagePage_Inbox.h"
@@ -15,6 +17,7 @@
 #include "PageBack_Task.h"
 #include "PageManager.h"
 #include "Pages.h"
+#include "Sleep_Task.h"
 #include "ui.h"
 
 #include "StopwatchPage_Event.h"
@@ -23,7 +26,7 @@
 /* Private define ------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-
+extern osThreadId_t IdleMonitorTaskHandle;
 /* Private function prototypes -----------------------------------------------*/
 
 
@@ -53,6 +56,12 @@ void LvHandlerTask(void *argument)
   {
     _time = lv_timer_handler();
 
+    //空闲打断
+    if (lv_disp_get_inactive_time(NULL)<1000)//1s内有触摸屏幕进行操作，打断空闲
+    {
+      osThreadFlagsSet(IdleMonitorTaskHandle,IDLE_EXIT_FLAG);
+    }
+
     //按键回退
     uint32_t page_flags = osThreadFlagsGet();// 非阻塞读
     if (page_flags & PAGE_BACK_FLAG)
@@ -74,6 +83,15 @@ void LvHandlerTask(void *argument)
         MessagePage_render(&message_page_inbox);
       }
 
+    }
+
+    //唤醒强制重刷
+    uint32_t wake_flags = osThreadFlagsGet();
+    if (wake_flags & UI_MAINPAGE_WAKE_REFRESH_FLAG)
+    {
+      osThreadFlagsClear(UI_MAINPAGE_WAKE_REFRESH_FLAG);
+      HomePage_RTC_ForceFresh();          // 让下一次lv_timer必产生脏区
+      lv_obj_invalidate(lv_scr_act());    // 整个当前页面重绘，兜住秒表/消息等其他页
     }
 
     // 限制最大休眠时间，保证按键队列被及时读取

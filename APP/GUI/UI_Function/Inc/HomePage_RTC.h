@@ -15,6 +15,7 @@ extern uint8_t ui_DateMonthValue;
 extern uint8_t ui_DateDayValue;
 extern uint8_t ui_DateWeekdayValue;
 
+void HomePage_RTC_ForceFresh(void);
 void HomePage_RTC_Start(void);
 void HomePage_RTC_Stop(void);
 

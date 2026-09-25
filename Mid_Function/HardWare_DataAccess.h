@@ -78,8 +78,12 @@ typedef struct
 
 typedef struct
 {
+    void(*Init)(void);
     void(*Set_Light)(uint8_t dc);
     uint8_t(*Get_Brightness)(void);   //获取当前背光占空比，用于UI回显
+    void(*LightDown)(void);
+    void(*Light_Close)(void);
+    void(*Light_Open)(void);
 }HW_LCD_InterfaceTypedef;
 
 

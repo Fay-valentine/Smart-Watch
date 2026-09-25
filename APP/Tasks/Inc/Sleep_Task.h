@@ -1,0 +1,10 @@
+//
+// Created by a1191 on 2026/9/25.
+//
+
+#ifndef INC_10_WATCH_SLEEP_TASK_H
+#define INC_10_WATCH_SLEEP_TASK_H
+
+#define UI_MAINPAGE_WAKE_REFRESH_FLAG    (1u << 3)
+
+#endif //INC_10_WATCH_SLEEP_TASK_H

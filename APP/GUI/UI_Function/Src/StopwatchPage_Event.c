@@ -6,7 +6,10 @@
 
 #include <stdio.h>
 
+#include "IdleMeasure_Task.h"
+#include "lvgl.h"
 #include "screens/ui_StopwatchPage.h"
+
 
 lv_timer_t* stopwatch_timer=NULL;
 Stopwatch_t stopwatch={0,0,0,0,0};
@@ -27,6 +30,7 @@ void StopwatchPage_Events_Init(void)
 
 void StopwatchPage_TimerStop(void)
 {
+    Idle_Monitor_Switch(true);//开启空闲监测
     stopwatch.flag=0;
     if (stopwatch_timer!=NULL)
     {
@@ -108,17 +112,20 @@ static void ui_event_StopwatchPage_cb(lv_event_t* e)
 
     if (target==ui_StartStopBTN && lv_obj_has_state(target,LV_STATE_CHECKED))//开始计时
     {
+        Idle_Monitor_Switch(false);//关闭空闲监测,计时的时候不降低亮度
         stopwatch.flag=1;
         lv_timer_resume(stopwatch_timer);
     }
     else if (target==ui_StartStopBTN && !lv_obj_has_state(target,LV_STATE_CHECKED))//停止计时
     {
+        Idle_Monitor_Switch(true);//开启空闲监测
         stopwatch.flag=0;
         StopwatchPage_Refresh_cb(stopwatch_timer);  //先刷新最后一帧
         lv_timer_pause(stopwatch_timer);
     }
     else if (target==ui_ResetStopwacthBTN)//重置计时
     {
+        Idle_Monitor_Switch(true);//开启空闲监测
         stopwatch.flag=0;
         lv_timer_pause(stopwatch_timer);
 

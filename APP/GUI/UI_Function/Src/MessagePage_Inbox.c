@@ -106,7 +106,6 @@ void MessagePage_render(const MessagePage_Inbox_t* messagePage_inbox)
 {
     /* 存"指向全局变量的指针"而非控件地址本身：
    页面销毁重建后，透过它读到的永远是最新的控件指针（同 MenuEntry_t 的技巧） */
-    lv_obj_t **btns[MSG_WINDOWS_NUM]   = { &ui_MessageBTN1,&ui_MessageBTN2, &ui_MessageBTN3,&ui_MessageBTN4, &ui_MessageBTN5 };
     lv_obj_t **labels[MSG_WINDOWS_NUM] = { &ui_Message1,&ui_Message2,&ui_Message3,&ui_Message4,&ui_Message5 };
 
     //将消息刷新到消息窗口

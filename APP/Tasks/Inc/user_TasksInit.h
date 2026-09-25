@@ -10,6 +10,7 @@ extern "C" {
 
     extern osThreadId_t HardwareInitTaskHandle;
     extern osThreadId_t LvHandlerTaskHandle;
+
 void User_Tasks_Init(void);
 
 #ifdef __cplusplus

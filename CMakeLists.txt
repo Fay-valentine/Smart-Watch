@@ -76,6 +76,9 @@ set(TASKS_SOURCES
         APP/Tasks/Src/SerialTask.c
         APP/Tasks/Src/PageBack_Task.c
         APP/Tasks/Src/Message_Inbox_Task.c
+        APP/Tasks/Src/IdleMeasure_Task.c
+        APP/Tasks/Src/Sleep_Task.c
+        APP/Tasks/Src/WWDOG_Task.c
 )
 
 set(MID_FUNCTION_SOURCES
@@ -94,6 +97,7 @@ set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/SetDatePage_Event.c
         APP/GUI/UI_Function/Src/SetTimePage_Event.c
         APP/GUI/UI_Function/Src/MessagePage_Inbox.c
+        APP/GUI/UI_Function/Src/ScreenOffPage_Event.c
 )
 
 set(LVGL_PORT_SOURCES

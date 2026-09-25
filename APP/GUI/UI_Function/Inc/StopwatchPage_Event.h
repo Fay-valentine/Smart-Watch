@@ -5,7 +5,7 @@
 #ifndef INC_10_WATCH_STOPWATCHPAGE_EVENT_H
 #define INC_10_WATCH_STOPWATCHPAGE_EVENT_H
 #include <stdint.h>
-#include "lvgl.h"
+
 
 typedef struct
 {

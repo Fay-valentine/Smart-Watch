@@ -1,5 +1,6 @@
 #include "Key_Task.h"
 
+#include "IdleMeasure_Task.h"
 #include "key.h"
 #include "main.h"
 #include "PageBack_Task.h"
@@ -7,7 +8,7 @@
 #include "Pages.h"
 
 
-
+extern osThreadId_t IdleMonitorTaskHandle;
 
 /**
  * @brief 按键回退
@@ -22,8 +23,9 @@ void StartKeyTask(void *argument)
         key_value=KeyScan(0);
         switch (key_value)
         {
-            case KEY1_VALUE://发送回退页面的任务通知
-                osThreadFlagsSet(PageBackTaskHandle,PAGE_BACK_FLAG);
+            case KEY1_VALUE:
+                osThreadFlagsSet(IdleMonitorTaskHandle, IDLE_EXIT_FLAG);//空闲打断
+                osThreadFlagsSet(PageBackTaskHandle,PAGE_BACK_FLAG);//发送回退页面的任务通知
                 break;
         }
         osDelay(10);
