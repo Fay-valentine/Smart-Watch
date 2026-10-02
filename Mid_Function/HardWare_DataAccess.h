@@ -13,7 +13,8 @@
 
     #define HW_USE_RTC          1
     #define HW_USE_BLUETOOTH    1
-    #define HW_USE_LCD    1
+    #define HW_USE_LCD          1
+    #define HW_USE_DTH20        1
 
 #endif
 
@@ -28,6 +29,11 @@
 #if HW_USE_LCD
 #include "lcd_init.h"
 #endif
+
+#if HW_USE_DTH20
+    # include "dht20.h"
+#endif
+
 
 
 /**
@@ -86,12 +92,19 @@ typedef struct
     void(*Light_Open)(void);
 }HW_LCD_InterfaceTypedef;
 
+typedef struct
+{
+    void(*Init)(void);
+    void(*Read)(float *Temperature,float *Humidity);
+}HW_DHT20_InterfaceTypedef;
+
 
 typedef struct
 {
     HW_RTC_InterfaceTypeDef RealTimeClock;
     HW_Bluetooth_InterfaceTypedef Bluetooth;
     HW_LCD_InterfaceTypedef LCD;
+    HW_DHT20_InterfaceTypedef DHT20;
 }HW_InterfaceTypeDef;
 
 

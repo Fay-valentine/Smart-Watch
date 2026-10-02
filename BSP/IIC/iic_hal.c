@@ -1,6 +1,9 @@
 #include "iic_hal.h"
 #include "delay.h"
 
+#define IIC_BIT_DELAY_US   10   // 位时序基准延时；改回 1/2 即恢复原速
+
+
 /**
   * @brief SDA线输入模式配置
   * @param None
@@ -28,7 +31,7 @@ void SDA_Output_Mode(iic_bus_t *bus)
 
     GPIO_InitStructure.Pin = bus->IIC_SDA_PIN;
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_OD;
-    GPIO_InitStructure.Pull = GPIO_NOPULL;
+    GPIO_InitStructure.Pull = GPIO_PULLUP;     // ← 原来是 GPIO_NOPULL，开漏释放总线靠它维持高电平
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(bus->IIC_SDA_PORT, &GPIO_InitStructure);
 }
@@ -90,13 +93,13 @@ void IICStart(iic_bus_t *bus)
 {
     SDA_Output(bus,1);
     //delay1(DELAY_TIME);
-		delay_us(2);
+		delay_us(IIC_BIT_DELAY_US);
     SCL_Output(bus,1);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
     SDA_Output(bus,0);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
     SCL_Output(bus,0);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
 }
 
 /**
@@ -107,13 +110,13 @@ void IICStart(iic_bus_t *bus)
 void IICStop(iic_bus_t *bus)
 {
     SCL_Output(bus,0);
-		delay_us(2);
+		delay_us(IIC_BIT_DELAY_US);
     SDA_Output(bus,0);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
     SCL_Output(bus,1);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
     SDA_Output(bus,1);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
 
 }
 
@@ -124,13 +127,14 @@ void IICStop(iic_bus_t *bus)
   */
 unsigned char IICWaitAck(iic_bus_t *bus)
 {
-    unsigned short cErrTime = 5;
+    unsigned short cErrTime = 500;// ← 原来是 5，每个时钟 1?s 太紧
     SDA_Input_Mode(bus);
     SCL_Output(bus,1);
+	delay_us(IIC_BIT_DELAY_US);              // ← 给从机 ACK 建立时间，再采样
     while(SDA_Input(bus))
     {
         cErrTime--;
-				delay_us(1);
+				delay_us(IIC_BIT_DELAY_US);
         if (0 == cErrTime)
         {
             SDA_Output_Mode(bus);
@@ -140,7 +144,7 @@ unsigned char IICWaitAck(iic_bus_t *bus)
     }
     SDA_Output_Mode(bus);
     SCL_Output(bus,0);
-		delay_us(2);
+		delay_us(IIC_BIT_DELAY_US);
     return SUCCESS;
 }
 
@@ -152,11 +156,11 @@ unsigned char IICWaitAck(iic_bus_t *bus)
 void IICSendAck(iic_bus_t *bus)
 {
     SDA_Output(bus,0);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
     SCL_Output(bus,1);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
     SCL_Output(bus,0);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
 	
 }
 
@@ -168,11 +172,11 @@ void IICSendAck(iic_bus_t *bus)
 void IICSendNotAck(iic_bus_t *bus)
 {
     SDA_Output(bus,1);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
     SCL_Output(bus,1);
-		delay_us(1);
+		delay_us(IIC_BIT_DELAY_US);
     SCL_Output(bus,0);
-		delay_us(2);
+		delay_us(IIC_BIT_DELAY_US);
 
 }
 
@@ -187,16 +191,16 @@ void IICSendByte(iic_bus_t *bus,unsigned char cSendByte)
     while (i--)
     {
         SCL_Output(bus,0);
-        delay_us(2);
+        delay_us(IIC_BIT_DELAY_US);
         SDA_Output(bus, cSendByte & 0x80);
-				delay_us(1);
+				delay_us(IIC_BIT_DELAY_US);
         cSendByte += cSendByte;
-				delay_us(1);
+				delay_us(IIC_BIT_DELAY_US);
         SCL_Output(bus,1);
-				delay_us(1);
+				delay_us(IIC_BIT_DELAY_US);
     }
     SCL_Output(bus,0);
-		delay_us(2);
+		delay_us(IIC_BIT_DELAY_US);
 }
 
 /**
@@ -213,9 +217,9 @@ unsigned char IICReceiveByte(iic_bus_t *bus)
     {
         cR_Byte += cR_Byte;
         SCL_Output(bus,0);
-				delay_us(2);
+				delay_us(IIC_BIT_DELAY_US);
         SCL_Output(bus,1);
-				delay_us(1);
+				delay_us(IIC_BIT_DELAY_US);
         cR_Byte |=  SDA_Input(bus);
     }
     SCL_Output(bus,0);
@@ -238,7 +242,7 @@ uint8_t IIC_Write_One_Byte(iic_bus_t *bus, uint8_t daddr,uint8_t reg,uint8_t dat
 	IICSendByte(bus,data);     						   
 	IICWaitAck(bus);  		    	   
   IICStop(bus);
-	delay_us(1);
+	delay_us(IIC_BIT_DELAY_US);
 	return 0;
 }
 
@@ -261,7 +265,7 @@ uint8_t IIC_Write_Multi_Byte(iic_bus_t *bus, uint8_t daddr,uint8_t reg,uint8_t l
 		IICWaitAck(bus); 
 	}		    	   
   IICStop(bus);
-	delay_us(1);
+	delay_us(IIC_BIT_DELAY_US);
 	return 0;
 } 
 

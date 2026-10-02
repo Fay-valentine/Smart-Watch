@@ -49,6 +49,7 @@ set(BSP_SOURCES
         BSP/LCD/lcd_init.c
         BSP/TOUCH/CST816.c
         BSP/Bluetooth/Bluetooth.c
+        BSP/DHT20/dht20.c
 )
 
 set(SYSTEM_SOURCES
@@ -79,6 +80,7 @@ set(TASKS_SOURCES
         APP/Tasks/Src/IdleMeasure_Task.c
         APP/Tasks/Src/Sleep_Task.c
         APP/Tasks/Src/WWDOG_Task.c
+        APP/Tasks/Src/DHT20_Task.c
 )
 
 set(MID_FUNCTION_SOURCES
@@ -98,6 +100,7 @@ set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/SetTimePage_Event.c
         APP/GUI/UI_Function/Src/MessagePage_Inbox.c
         APP/GUI/UI_Function/Src/ScreenOffPage_Event.c
+        APP/GUI/UI_Function/Src/EnvironmentPage_Event.c
 )
 
 set(LVGL_PORT_SOURCES
@@ -140,6 +143,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         BSP/LCD
         BSP/TOUCH
         BSP/Bluetooth
+        BSP/DHT20
         System
         APP/Tasks/Inc
         APP/GUI/UI_Function/Inc

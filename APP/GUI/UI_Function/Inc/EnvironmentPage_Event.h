@@ -1,0 +1,8 @@
+//
+// Created by a1191 on 2026/10/2.
+//
+
+#ifndef INC_10_WATCH_ENVIRONMENTPAGE_EVENT_H
+#define INC_10_WATCH_ENVIRONMENTPAGE_EVENT_H
+void EnvironmentPage_Event_Init(void);
+#endif //INC_10_WATCH_ENVIRONMENTPAGE_EVENT_H

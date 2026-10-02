@@ -62,6 +62,12 @@ void Error_Handler(void);
 #define Key1_Pin GPIO_PIN_0
 #define Key1_GPIO_Port GPIOA
 #define Key1_EXTI_IRQn EXTI0_IRQn
+#define DHT20_SCL_Pin GPIO_PIN_4
+#define DHT20_SCL_GPIO_Port GPIOC
+#define DHT20_SDA_Pin GPIO_PIN_5
+#define DHT20_SDA_GPIO_Port GPIOC
+#define LED_test_Pin GPIO_PIN_2
+#define LED_test_GPIO_Port GPIOB
 #define PWM_LCD_Pin GPIO_PIN_15
 #define PWM_LCD_GPIO_Port GPIOA
 

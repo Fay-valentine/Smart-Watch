@@ -90,8 +90,10 @@ void LvHandlerTask(void *argument)
     if (wake_flags & UI_MAINPAGE_WAKE_REFRESH_FLAG)
     {
       osThreadFlagsClear(UI_MAINPAGE_WAKE_REFRESH_FLAG);
-      HomePage_RTC_ForceFresh();          // 让下一次lv_timer必产生脏区
-      lv_obj_invalidate(lv_scr_act());    // 整个当前页面重绘，兜住秒表/消息等其他页
+      HomePage_RTC_ForceFresh();          // 让下一次lv_timer（首页时间显示部分）必产生脏区
+      // 让整个当前页面变成脏区，强制重绘；如果不放入脏区，复位后GRAM（GRAM还在，屏幕就还会显示旧的画面）被删了（现在这个硬件不会）
+      //屏幕上就显示黑屏，因为lvgl不知道这块区域要进行刷新，不会要求重发像素，写到GRAM里
+      lv_obj_invalidate(lv_scr_act());
     }
 
     // 限制最大休眠时间，保证按键队列被及时读取

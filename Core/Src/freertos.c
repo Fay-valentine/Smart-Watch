@@ -104,6 +104,13 @@ const osThreadAttr_t WWDOG_Task_attributes = {
   .stack_size = 64 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for AHT20Task */
+osThreadId_t AHT20TaskHandle;
+const osThreadAttr_t AHT20Task_attributes = {
+  .name = "AHT20Task",
+  .stack_size = 256 * 4,
+  .priority = (osPriority_t) osPriorityLow7,
+};
 /* Definitions for IdleTimer */
 osTimerId_t IdleTimerHandle;
 const osTimerAttr_t IdleTimer_attributes = {
@@ -133,6 +140,7 @@ void StartMsgInboxTask(void *argument);
 void StartIdleMonitorTask(void *argument);
 void StartSleepTask(void *argument);
 void StartWWDOGTask(void *argument);
+void StartAHT20Task(void *argument);
 void IdleTimerCallback(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -215,6 +223,9 @@ void MX_FREERTOS_Init(void) {
   /* creation of WWDOG_Task */
   WWDOG_TaskHandle = osThreadNew(StartWWDOGTask, NULL, &WWDOG_Task_attributes);
 
+  /* creation of AHT20Task */
+  AHT20TaskHandle = osThreadNew(StartAHT20Task, NULL, &AHT20Task_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -238,7 +249,8 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+
+    osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
 }
@@ -367,6 +379,24 @@ __weak void StartWWDOGTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartWWDOGTask */
+}
+
+/* USER CODE BEGIN Header_StartAHT20Task */
+/**
+* @brief Function implementing the AHT20Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartAHT20Task */
+__weak void StartAHT20Task(void *argument)
+{
+  /* USER CODE BEGIN StartAHT20Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartAHT20Task */
 }
 
 /* IdleTimerCallback function */

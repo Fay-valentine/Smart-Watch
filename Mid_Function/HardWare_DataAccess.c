@@ -119,6 +119,20 @@ void HW_LCD_Close_Light(void)
 }
 #endif
 
+#if HW_USE_DTH20
+void HW_DHT20_Init(void)
+{
+    DHT20_Init();
+}
+
+void HW_DHT20_Read(float *Temperature,float *Humidity)
+{
+    DHT20_Read(Temperature,Humidity);
+}
+#endif
+
+
+
 //这里实现了接口
 HW_InterfaceTypeDef HWInterface={
     .RealTimeClock = {
@@ -138,5 +152,9 @@ HW_InterfaceTypeDef HWInterface={
         .LightDown = HW_LCD_LightDown,
         .Light_Close = HW_LCD_Close_Light,
         .Light_Open = HW_LCD_Light_Open,
+    },
+    .DHT20 = {
+        .Init = HW_DHT20_Init,
+        .Read = HW_DHT20_Read,
     },
 };
