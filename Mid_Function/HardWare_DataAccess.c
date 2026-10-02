@@ -119,32 +119,41 @@ void HW_LCD_Close_Light(void)
 }
 #endif
 
-#if HW_USE_DTH20
+#if HW_USE_DHT20
 void HW_DHT20_Init(void)
 {
     DHT20_Init();
 }
 
+
 void HW_DHT20_Read(float *Temperature,float *Humidity)
 {
     DHT20_Read(Temperature,Humidity);
 }
+
 #endif
 
 
 
 //这里实现了接口
 HW_InterfaceTypeDef HWInterface={
+#if HW_USE_RTC
     .RealTimeClock = {
         .CalculateWeekDay = HW_weekday_calculate,
         .SetDate = HW_RTC_Set_Date,
         .SetTime = HW_RTC_Set_Time,
         .GetDateTime = HW_RTC_Get_Date_Time,
     },
+#endif
+
+#if HW_USE_BLUETOOTH
     .Bluetooth = {
         .Set = HW_Bluetooth_Set,
         .GetState = HW_Bluetooth_GetState,
     },
+#endif
+
+#if HW_USE_LCD
     .LCD = {
         .Init = HW_LCD_Init,
         .Set_Light = HW_LCD_Set_Light,
@@ -153,8 +162,13 @@ HW_InterfaceTypeDef HWInterface={
         .Light_Close = HW_LCD_Close_Light,
         .Light_Open = HW_LCD_Light_Open,
     },
+#endif
+
+#if HW_USE_DHT20
     .DHT20 = {
         .Init = HW_DHT20_Init,
         .Read = HW_DHT20_Read,
     },
+#endif
+
 };

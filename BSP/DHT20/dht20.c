@@ -1,5 +1,6 @@
 #include "dht20.h"
 #include "iic_hal.h"
+#include "main.h"
 
 #define DHT20_ADDRESS   0x38
 

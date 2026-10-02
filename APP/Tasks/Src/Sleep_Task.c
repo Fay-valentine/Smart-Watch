@@ -53,6 +53,7 @@ void StartSleepTask(void *argument)
         /*-------------------------------MCU恢复-------------------------------*/
         //Systicks
         SET_BIT(SysTick->CTRL, SysTick_CTRL_TICKINT_Msk);
+
         SystemClock_Config();                               // 重新配 PLL，恢复 100MHz 系统时钟
 
         //tasks

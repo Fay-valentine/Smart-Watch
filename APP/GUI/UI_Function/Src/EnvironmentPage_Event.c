@@ -10,25 +10,43 @@
 #include "lvgl.h"
 #include "screens/ui_EnvironmentPage.h"
 
-char msg[50];
+float ui_temperatureLabel_value=26;
+float ui_humidityLabel_value=40;
 
-void ui_event_EnvironmentPage_cb(lv_event_t* e);
+lv_timer_t* EnvironmentPage_Timer=NULL;
 
-void EnvironmentPage_Event_Init(void)
+void ui_event_EnvironmentPage_Refresh_cb(lv_timer_t* timer);
+
+void EnvironmentPage_Start_Refresh(void)
 {
-    lv_obj_add_event_cb(ui_EnvironmentPage, ui_event_EnvironmentPage_cb, LV_EVENT_VALUE_CHANGED, NULL);
+    if (EnvironmentPage_Timer==NULL)
+    {
+        EnvironmentPage_Timer=lv_timer_create(ui_event_EnvironmentPage_Refresh_cb,500, NULL);
+    }
 }
 
 
-void ui_event_EnvironmentPage_cb(lv_event_t* e)
+void ui_event_EnvironmentPage_Refresh_cb(lv_timer_t* timer)
 {
-    float temperature=0;
-    float humidity=0;
-    HWInterface.DHT20.Read(&temperature,&humidity);
-    lv_bar_set_value(ui_TemperatureBar,(int32_t)temperature,LV_ANIM_OFF);
-    lv_bar_set_value(ui_HumidityBar,(int32_t)humidity,LV_ANIM_OFF);
-    sprintf(msg,"%.1f",temperature);
-    lv_label_set_text(ui_TemperatureLabel,msg);
-    sprintf(msg,"%.1f",humidity);
-    lv_label_set_text(ui_HumidityLabel,msg);
+    if (HWInterface.DHT20.temperature != 0.0 && HWInterface.DHT20.temperature != ui_temperatureLabel_value)
+    {
+        lv_label_set_text_fmt(ui_TemperatureLabel, "%.1f", HWInterface.DHT20.temperature);
+        ui_temperatureLabel_value=HWInterface.DHT20.temperature;
+        lv_bar_set_value(ui_TemperatureBar, (int32_t)HWInterface.DHT20.temperature, LV_ANIM_ON);
+    }
+    if (HWInterface.DHT20.humidity != 0.0 && HWInterface.DHT20.humidity != ui_humidityLabel_value)
+    {
+        lv_label_set_text_fmt(ui_HumidityLabel, "%.1f", HWInterface.DHT20.humidity);
+        ui_humidityLabel_value=HWInterface.DHT20.humidity;
+        lv_bar_set_value(ui_HumidityBar, (int32_t)HWInterface.DHT20.humidity, LV_ANIM_ON);
+    }
+}
+
+void EnvironmentPage_Stop_Refresh(void)
+{
+    if (EnvironmentPage_Timer!=NULL)
+    {
+        lv_timer_del(EnvironmentPage_Timer);
+        EnvironmentPage_Timer=NULL;
+    }
 }

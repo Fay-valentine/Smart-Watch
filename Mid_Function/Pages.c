@@ -5,6 +5,7 @@
 #include "MenuPage_Event.h"
 #include "SettingsPage_Event.h"
 #include "ControlCenterPage_Event.h"
+#include "EnvironmentPage_Event.h"
 #include "MessagePage_Inbox.h"
 #include "ScreenOffPage_Event.h"
 #include "SetDatePage_Event.h"
@@ -80,11 +81,12 @@ Page_t StopwatchPage = {StopwatchPage_Init, StopwatchPage_Destroy, &ui_Stopwatch
 void EnvironmentPage_Init(void)
 {
     ui_EnvironmentPage_screen_init();
+    EnvironmentPage_Start_Refresh();
 }
 
 void EnvironmentPage_Destroy(void)
 {
-
+    EnvironmentPage_Stop_Refresh();
 }
 
 Page_t EnvironmentPage = {EnvironmentPage_Init, EnvironmentPage_Destroy, &ui_EnvironmentPage};

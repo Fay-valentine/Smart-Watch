@@ -57,10 +57,10 @@ void ui_EnvironmentPage_screen_init(void)
     ui_TemperatureLabel = lv_label_create(ui_EnvironmentPage);
     lv_obj_set_width(ui_TemperatureLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_TemperatureLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_TemperatureLabel, -57);
+    lv_obj_set_x(ui_TemperatureLabel, -65);
     lv_obj_set_y(ui_TemperatureLabel, 120);
     lv_obj_set_align(ui_TemperatureLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_TemperatureLabel, "26");
+    lv_label_set_text(ui_TemperatureLabel, "26.5");
     lv_obj_set_style_text_font(ui_TemperatureLabel, &ui_font_Font16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_CelsiusLabel = lv_label_create(ui_EnvironmentPage);
@@ -75,10 +75,10 @@ void ui_EnvironmentPage_screen_init(void)
     ui_HumidityLabel = lv_label_create(ui_EnvironmentPage);
     lv_obj_set_width(ui_HumidityLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_HumidityLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_HumidityLabel, 45);
+    lv_obj_set_x(ui_HumidityLabel, 40);
     lv_obj_set_y(ui_HumidityLabel, 120);
     lv_obj_set_align(ui_HumidityLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_HumidityLabel, "40");
+    lv_label_set_text(ui_HumidityLabel, "40.5");
     lv_obj_set_style_text_font(ui_HumidityLabel, &ui_font_Font16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_PercentageLabel = lv_label_create(ui_EnvironmentPage);

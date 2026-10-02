@@ -14,7 +14,7 @@
     #define HW_USE_RTC          1
     #define HW_USE_BLUETOOTH    1
     #define HW_USE_LCD          1
-    #define HW_USE_DTH20        1
+    #define HW_USE_DHT20        1
 
 #endif
 
@@ -30,7 +30,7 @@
 #include "lcd_init.h"
 #endif
 
-#if HW_USE_DTH20
+#if HW_USE_DHT20
     # include "dht20.h"
 #endif
 
@@ -94,6 +94,8 @@ typedef struct
 
 typedef struct
 {
+    volatile float temperature;
+    volatile float humidity;
     void(*Init)(void);
     void(*Read)(float *Temperature,float *Humidity);
 }HW_DHT20_InterfaceTypedef;
