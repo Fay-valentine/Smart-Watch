@@ -125,7 +125,6 @@ void HW_DHT20_Init(void)
     DHT20_Init();
 }
 
-
 void HW_DHT20_Read(float *Temperature,float *Humidity)
 {
     DHT20_Read(Temperature,Humidity);

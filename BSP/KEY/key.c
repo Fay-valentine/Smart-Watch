@@ -13,13 +13,13 @@ uint8_t KeyScan(uint8_t mode)
 	if(mode) key_up = 1;
 	if( key_up && (!KEY1))
 	{
-		delay_ms(3);//ensure the key is down
+		osDelay(3);//ensure the key is down
 		if(!KEY1) key_value = 1;
 		if(key_value) key_up = 0;
 	}
 	else
 	{
-		delay_ms(3);//ensure the key is up
+		osDelay(3);//ensure the key is up
 		if(KEY1)
 			key_up = 1;
 	}

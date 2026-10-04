@@ -28,7 +28,17 @@ void Serial_Send(uint8_t* data,uint16_t len)
 }
 
 /**
- * @brief 格式化串口发送，不支持浮点
+ * @brief 供睡眠唤醒后调用：若蓝牙处于开启状态，重新挂回空闲+DMA接收
+ */
+void Serial_ResumeRx(void)
+{
+    if (!Bluetooth_GetState()) return;
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t*)rxBuf, sizeof(rxBuf));
+    __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
+}
+
+/**
+ * @brief 格式化串口发送
  */
 void Serial_Printf(const char* fmt, ...)
 {
