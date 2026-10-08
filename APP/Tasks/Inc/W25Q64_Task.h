@@ -1,0 +1,8 @@
+//
+// Created by a1191 on 2026/10/8.
+//
+
+#ifndef INC_10_WATCH_W25Q64_TASK_H
+#define INC_10_WATCH_W25Q64_TASK_H
+
+#endif //INC_10_WATCH_W25Q64_TASK_H

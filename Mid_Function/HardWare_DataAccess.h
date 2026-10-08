@@ -15,6 +15,7 @@
     #define HW_USE_BLUETOOTH    1
     #define HW_USE_LCD          1
     #define HW_USE_DHT20        1
+    #define HW_USE_W25Q64       1
 
 #endif
 
@@ -32,6 +33,10 @@
 
 #if HW_USE_DHT20
     # include "dht20.h"
+#endif
+
+#if HW_USE_W25Q64
+    #include "W25Q64.h"
 #endif
 
 
@@ -65,7 +70,7 @@ typedef struct
 
 } HW_DateTimeTypeDef;
 
-
+//RTC
 typedef struct
 {
     uint8_t(*CalculateWeekDay)(uint8_t setyear, uint8_t setmonth, uint8_t setday, uint8_t century);
@@ -74,14 +79,14 @@ typedef struct
     void(*GetDateTime)(HW_DateTimeTypeDef* nowDateTime);
 }HW_RTC_InterfaceTypeDef;
 
-
+//蓝牙
 typedef struct
 {
     void(*Set)(bool on);      //开/关蓝牙
     bool(*GetState)(void);    //获取当前开关状态，用于UI回显
 }HW_Bluetooth_InterfaceTypedef;
 
-
+//LCD
 typedef struct
 {
     void(*Init)(void);
@@ -92,6 +97,7 @@ typedef struct
     void(*Light_Open)(void);
 }HW_LCD_InterfaceTypedef;
 
+//DHT20
 typedef struct
 {
     volatile float temperature;
@@ -100,7 +106,20 @@ typedef struct
     void(*Read)(float *Temperature,float *Humidity);
 }HW_DHT20_InterfaceTypedef;
 
+//W25Q64
+typedef struct
+{
+    void(*Init)(void);
+    void(*ReadID)(uint8_t* MID,uint16_t* DID);
+    uint8_t(*WriteEnable)(void);
+    uint8_t(*Wait_Busy)(void);
+    uint8_t(*Page_Program)(uint32_t address, uint8_t* dataArray, uint16_t count);
+    uint8_t(*Sector_Erase)(uint32_t address);
+    uint8_t(*Read_Data)(uint32_t address, uint8_t* dataArray, uint32_t count);
+}HW_W25Q64_InterfaceTypedef;
 
+
+//总接口
 typedef struct
 {
     HW_RTC_InterfaceTypeDef RealTimeClock;

@@ -50,6 +50,7 @@ set(BSP_SOURCES
         BSP/TOUCH/CST816.c
         BSP/Bluetooth/Bluetooth.c
         BSP/DHT20/dht20.c
+        BSP/W25Q64/W25Q64.c
 )
 
 set(SYSTEM_SOURCES
@@ -81,6 +82,7 @@ set(TASKS_SOURCES
         APP/Tasks/Src/Sleep_Task.c
         APP/Tasks/Src/WWDOG_Task.c
         APP/Tasks/Src/DHT20_Task.c
+        APP/Tasks/Src/W25Q64_Task.c
 )
 
 set(MID_FUNCTION_SOURCES
@@ -144,6 +146,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         BSP/TOUCH
         BSP/Bluetooth
         BSP/DHT20
+        BSP/W25Q64
         System
         APP/Tasks/Inc
         APP/GUI/UI_Function/Inc

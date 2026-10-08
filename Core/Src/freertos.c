@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "user_TasksInit.h"
 #include "user_LVGLTask.h"
+#include "W25Q64.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,14 +68,14 @@ osThreadId_t SerialTaskHandle;
 const osThreadAttr_t SerialTask_attributes = {
   .name = "SerialTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for PageBackTask */
 osThreadId_t PageBackTaskHandle;
 const osThreadAttr_t PageBackTask_attributes = {
   .name = "PageBackTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityNormal7,
 };
 /* Definitions for MsgInbox_Task */
 osThreadId_t MsgInbox_TaskHandle;
@@ -88,7 +89,7 @@ osThreadId_t IdleMonitorTaskHandle;
 const osThreadAttr_t IdleMonitorTask_attributes = {
   .name = "IdleMonitorTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityLow7,
 };
 /* Definitions for Sleep_Task */
 osThreadId_t Sleep_TaskHandle;
@@ -102,7 +103,7 @@ osThreadId_t WWDOG_TaskHandle;
 const osThreadAttr_t WWDOG_Task_attributes = {
   .name = "WWDOG_Task",
   .stack_size = 64 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityHigh1,
 };
 /* Definitions for AHT20Task */
 osThreadId_t AHT20TaskHandle;
@@ -110,6 +111,18 @@ const osThreadAttr_t AHT20Task_attributes = {
   .name = "AHT20Task",
   .stack_size = 256 * 4,
   .priority = (osPriority_t) osPriorityLow7,
+};
+/* Definitions for W25Q64Task */
+osThreadId_t W25Q64TaskHandle;
+const osThreadAttr_t W25Q64Task_attributes = {
+  .name = "W25Q64Task",
+  .stack_size = 512 * 4,
+  .priority = (osPriority_t) osPriorityLow6,
+};
+/* Definitions for myQueue01 */
+osMessageQueueId_t myQueue01Handle;
+const osMessageQueueAttr_t myQueue01_attributes = {
+  .name = "myQueue01"
 };
 /* Definitions for IdleTimer */
 osTimerId_t IdleTimerHandle;
@@ -121,10 +134,26 @@ osMutexId_t SerialMutexHandle;
 const osMutexAttr_t SerialMutex_attributes = {
   .name = "SerialMutex"
 };
+/* Definitions for W25Q64_RecursiveMutex */
+osMutexId_t W25Q64_RecursiveMutexHandle;
+const osMutexAttr_t W25Q64_RecursiveMutex_attributes = {
+  .name = "W25Q64_RecursiveMutex",
+  .attr_bits = osMutexRecursive,
+};
 /* Definitions for SerialBinarySem */
 osSemaphoreId_t SerialBinarySemHandle;
 const osSemaphoreAttr_t SerialBinarySem_attributes = {
   .name = "SerialBinarySem"
+};
+/* Definitions for SPI2_tx_BinarySem */
+osSemaphoreId_t SPI2_tx_BinarySemHandle;
+const osSemaphoreAttr_t SPI2_tx_BinarySem_attributes = {
+  .name = "SPI2_tx_BinarySem"
+};
+/* Definitions for SPI2_rx_BinarySem */
+osSemaphoreId_t SPI2_rx_BinarySemHandle;
+const osSemaphoreAttr_t SPI2_rx_BinarySem_attributes = {
+  .name = "SPI2_rx_BinarySem"
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -141,6 +170,7 @@ void StartIdleMonitorTask(void *argument);
 void StartSleepTask(void *argument);
 void StartWWDOGTask(void *argument);
 void StartAHT20Task(void *argument);
+void StartW25Q64Task(void *argument);
 void IdleTimerCallback(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -173,6 +203,10 @@ void MX_FREERTOS_Init(void) {
   /* creation of SerialMutex */
   SerialMutexHandle = osMutexNew(&SerialMutex_attributes);
 
+  /* Create the recursive mutex(es) */
+  /* creation of W25Q64_RecursiveMutex */
+  W25Q64_RecursiveMutexHandle = osMutexNew(&W25Q64_RecursiveMutex_attributes);
+
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
@@ -180,6 +214,12 @@ void MX_FREERTOS_Init(void) {
   /* Create the semaphores(s) */
   /* creation of SerialBinarySem */
   SerialBinarySemHandle = osSemaphoreNew(1, 1, &SerialBinarySem_attributes);
+
+  /* creation of SPI2_tx_BinarySem */
+  SPI2_tx_BinarySemHandle = osSemaphoreNew(1, 1, &SPI2_tx_BinarySem_attributes);
+
+  /* creation of SPI2_rx_BinarySem */
+  SPI2_rx_BinarySemHandle = osSemaphoreNew(1, 1, &SPI2_rx_BinarySem_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -194,8 +234,17 @@ void MX_FREERTOS_Init(void) {
   osTimerStart(IdleTimerHandle, 100);//100ms
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* creation of myQueue01 */
+  myQueue01Handle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue01_attributes);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
+  osMessageQueueId_t W25Q64QueueHandle;
+  const osMessageQueueAttr_t W25Q64Queue_attributes = {
+    .name = "W25Q64Queue"
+  };
+  W25Q64QueueHandle = osMessageQueueNew(16,sizeof(StorageReq_t),&W25Q64Queue_attributes);
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -225,6 +274,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of AHT20Task */
   AHT20TaskHandle = osThreadNew(StartAHT20Task, NULL, &AHT20Task_attributes);
+
+  /* creation of W25Q64Task */
+  W25Q64TaskHandle = osThreadNew(StartW25Q64Task, NULL, &W25Q64Task_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -397,6 +449,24 @@ __weak void StartAHT20Task(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartAHT20Task */
+}
+
+/* USER CODE BEGIN Header_StartW25Q64Task */
+/**
+* @brief Function implementing the W25Q64Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartW25Q64Task */
+__weak void StartW25Q64Task(void *argument)
+{
+  /* USER CODE BEGIN StartW25Q64Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartW25Q64Task */
 }
 
 /* IdleTimerCallback function */
