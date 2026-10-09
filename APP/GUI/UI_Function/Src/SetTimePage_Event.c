@@ -40,5 +40,8 @@ void ui_event_SetTimePage_cb(lv_event_t* e)
     //设置RTC时间
     HWInterface.RealTimeClock.SetTime(set_hour, set_minute,0);
 
+    //把时间保存到W25Q64
+    HWInterface.W25Q64.Saved_Current_DateTime();
+
     Page_Back();//设置完成后退出页面
 }

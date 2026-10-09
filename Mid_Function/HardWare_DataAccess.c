@@ -132,6 +132,52 @@ void HW_DHT20_Read(float *Temperature,float *Humidity)
 
 #endif
 
+#if HW_USE_W25Q64
+void HW_W25Q64_Init(void)
+{
+    W25Q64_Init();
+}
+
+void HW_W25Q64_ReadID(uint8_t* MID,uint16_t* DID)
+{
+    W25Q64_ReadID(MID,DID);
+}
+
+uint8_t HW_W25Q64_WriteEnable(void)
+{
+    return W25Q64_WriteEnable();
+}
+
+uint8_t HW_W25Q64_Wait_Busy(void)
+{
+    return W25Q64_Wait_Busy();
+}
+
+uint8_t HW_W25Q64_Page_Program(uint32_t address, uint8_t* dataArray, uint16_t count)
+{
+    return W25Q64_Page_Program(address,dataArray,count);
+}
+
+uint8_t HW_W25Q64_Sector_Erase(uint32_t address)
+{
+    return W25Q64_Sector_Erase(address);
+}
+
+uint8_t HW_W25Q64_Read_Data(uint32_t address, uint8_t* dataArray, uint32_t count)
+{
+    return W25Q64_Read_Data(address,dataArray,count);
+}
+
+void HW_W25Q64_Saved_Current_DateTime(void)
+{
+    W25Q64_Saved_Current_DateTime();
+}
+
+void HW_W25Q64_RestoreDateTime(void)
+{
+    W25Q64_RestoreDateTime();
+}
+#endif
 
 
 //这里实现了接口
@@ -169,5 +215,21 @@ HW_InterfaceTypeDef HWInterface={
         .Read = HW_DHT20_Read,
     },
 #endif
+
+#if HW_USE_W25Q64
+    .W25Q64 = {
+        .Init = HW_W25Q64_Init,
+        .WriteEnable = HW_W25Q64_WriteEnable,
+        .Wait_Busy = HW_W25Q64_Wait_Busy,
+        .ReadID = HW_W25Q64_ReadID,
+        .Sector_Erase = HW_W25Q64_Sector_Erase,
+        .Page_Program = HW_W25Q64_Page_Program,
+        .Read_Data = HW_W25Q64_Read_Data,
+        .Saved_Current_DateTime = HW_W25Q64_Saved_Current_DateTime,
+        .RestoreDateTime = HW_W25Q64_RestoreDateTime,
+    },
+#endif
+
+
 
 };

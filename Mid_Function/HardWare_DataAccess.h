@@ -116,6 +116,8 @@ typedef struct
     uint8_t(*Page_Program)(uint32_t address, uint8_t* dataArray, uint16_t count);
     uint8_t(*Sector_Erase)(uint32_t address);
     uint8_t(*Read_Data)(uint32_t address, uint8_t* dataArray, uint32_t count);
+    void(*Saved_Current_DateTime)(void);
+    void(*RestoreDateTime)(void);
 }HW_W25Q64_InterfaceTypedef;
 
 
@@ -126,6 +128,7 @@ typedef struct
     HW_Bluetooth_InterfaceTypedef Bluetooth;
     HW_LCD_InterfaceTypedef LCD;
     HW_DHT20_InterfaceTypedef DHT20;
+    HW_W25Q64_InterfaceTypedef W25Q64;
 }HW_InterfaceTypeDef;
 
 

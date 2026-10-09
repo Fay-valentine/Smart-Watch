@@ -28,6 +28,8 @@
 #include "user_TasksInit.h"
 #include "user_LVGLTask.h"
 #include "W25Q64.h"
+#include "SerialTask.h"
+#include "lvgl.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,7 +49,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+osMessageQueueId_t W25Q64QueueHandle;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -240,7 +242,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
-  osMessageQueueId_t W25Q64QueueHandle;
+
   const osMessageQueueAttr_t W25Q64Queue_attributes = {
     .name = "W25Q64Queue"
   };
@@ -298,11 +300,21 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
+  lv_mem_monitor_t lv_mon;
   /* Infinite loop */
   for(;;)
   {
 
-    osDelay(1000);
+    // lv_mem_monitor(&lv_mon);
+    // Serial_Printf("[MEM] LVGL used:%u total:%u max:%u frag:%u%% | FreeRTOS free:%u min:%u\r\n",
+    //               (unsigned)(lv_mon.total_size - lv_mon.free_size),
+    //               (unsigned)lv_mon.total_size,
+    //               (unsigned)lv_mon.max_used,
+    //               (unsigned)lv_mon.frag_pct,
+    //               (unsigned)xPortGetFreeHeapSize(),
+    //               (unsigned)xPortGetMinimumEverFreeHeapSize());
+    //
+    // osDelay(5000);
   }
   /* USER CODE END StartDefaultTask */
 }

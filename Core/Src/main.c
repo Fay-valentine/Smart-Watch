@@ -81,7 +81,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  HAL_DBGMCU_EnableDBGStopMode();   /* 允许调试器在 STOP 模式下 halt 内核 */
+  //HAL_DBGMCU_EnableDBGStopMode();   /* 允许调试器在 STOP 模式下 halt 内核 */
   /* USER CODE END Init */
 
   /* Configure the system clock */
