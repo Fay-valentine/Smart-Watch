@@ -9,6 +9,8 @@
 #include "Pages.h"
 #include "screens/ui_ControlCenterPage.h"
 
+extern osThreadId_t SerialTaskHandle;
+
 static void ui_event_ControlCenterPage_cb(lv_event_t* e);
 
 void ControlCenterPage_Events_Init(void)
@@ -45,6 +47,7 @@ static void ui_event_ControlCenterPage_cb(lv_event_t* e)
         //跟随按钮的CHECKED状态做开/关联动
         bool on = lv_obj_has_state(target, LV_STATE_CHECKED);
         HWInterface.Bluetooth.Set(on);
+        osThreadFlagsSet(SerialTaskHandle, BT_STATE_CHANGED_FLAG);
     }
 
     else if (target==ui_BrightnessSlider)

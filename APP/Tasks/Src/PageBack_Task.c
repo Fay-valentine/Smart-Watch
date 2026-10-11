@@ -28,10 +28,6 @@ void StartPageBackTask(void *argument)
         {
             osThreadFlagsSet(LvHandlerTaskHandle,PAGE_BACK_FLAG);
         }
-        else//在主页，进入下拉页面（亮度，蓝牙等），待写
-        {
-
-        }
 
         ///防止快速连按
         osDelay(BACK_COOLDOWN_MS);

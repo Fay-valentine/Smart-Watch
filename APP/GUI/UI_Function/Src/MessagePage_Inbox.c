@@ -33,7 +33,7 @@ void MessagePage_Inbox_Init(MessagePage_Inbox_t* messagePage_inbox)
 /**
  * @brief 将新消息插入到消息列表中
  */
-static void MessagePage_Inbox_PushNewMsg(MessagePage_Inbox_t* messagePage_inbox, const Msg_t* msg)
+void MessagePage_Inbox_PushNewMsg(MessagePage_Inbox_t* messagePage_inbox, const Msg_t* msg)
 {
     //将数组全部消息后移一位，移出数组尾部的消息
     for (int i = MSG_WINDOWS_NUM - 1; i > 0; --i)
@@ -80,24 +80,24 @@ void MessagePage_Inbox_CopyMsgFromISR(const MessagePage_Inbox_t* messagePage_inb
 }
 
 /**
- * @brief 将 消息队列的消息 全部放进行 消息收件箱 中
- * @return true:有新消息，false:无新消息 或 消息队列未创建
+ * @brief 将 等待消息队列，并把消息队列的消息 全部放进 消息收件箱 中
+ * @return 从消息队列获取的信息数量，0:无新消息 或 消息队列未创建
  */
-bool MessagePage_Inbox_MsgQueue_To_MsgInbox(MessagePage_Inbox_t* messagePage_inbox)
+uint8_t MessagePage_Inbox_MsgQueue_To_MsgInbox(MessagePage_Inbox_t* messagePage_inbox)
 {
     if (messagePage_inbox->queue_id==NULL)
     {
-        return false;
+        return 0;
     }
 
-    bool changed = false;
     Msg_t msg;
+    uint8_t new_msg_count=0;
     while (osMessageQueueGet(messagePage_inbox->queue_id, &msg, NULL, 0) == osOK)  // 超时0=非阻塞
     {
+        new_msg_count++;
         MessagePage_Inbox_PushNewMsg(messagePage_inbox, &msg);
-        changed = true;
     }
-    return changed;
+    return new_msg_count;
 }
 
 /**

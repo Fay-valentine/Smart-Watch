@@ -6,7 +6,7 @@
 
 extern osThreadId_t SerialTaskHandle;
 
-static volatile bool bt_state = false;  //蓝牙开关状态
+static volatile bool bt_state = true;  //蓝牙开关状态
 
 /**
  * @brief 设置蓝牙开关状态

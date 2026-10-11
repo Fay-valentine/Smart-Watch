@@ -32,22 +32,6 @@ typedef struct {
 } StorageReq_t;
 
 
-
-/* 头结构体：只在 RAM 里用，不代表 Flash 布局 */
-typedef struct {
-    uint16_t magic;
-    uint16_t seq;
-    uint16_t region;
-    uint8_t  len;
-    uint8_t  checksum;
-} W25Q64_Log_Frame_Hdr_t;
-
-typedef struct// 纯数据，帧头帧尾都归日志层管
-{
-    uint8_t year,month, day;// 两位年，2000+year
-    uint8_t hour, minute, second;
-} DateTimeData_t;
-
 //用于控制读取方式，比如读取多少条数据，读取特定数据等;返回0则停止调用
 typedef uint8_t(*W25Q64_Log_Foreach_Read_cb)(uint8_t* payload,uint16_t payload_len,void* arg);
 

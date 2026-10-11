@@ -4,23 +4,61 @@
 
 #include "W25Q64.h"
 
+#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 
 #include "main.h"
 #include "gpio.h"
 #include "HardWare_DataAccess.h"
+#include "MessagePage_Inbox.h"
 #include "SerialTask.h"
 #include "Serial_command.h"
 #include "spi.h"
+#include "usart.h"
 #include "W25Q64_Instruction.h"
-
-extern osMutexId_t W25Q64_RecursiveMutexHandle;
-extern osMessageQueueId_t W25Q64QueueHandle;
 
 /* 1字节≈10µs @0.78MHz，len字节≈len*0.01ms，再给10ms固定余量 */
 #define SPI_XFER_TIMEOUT(len)   (10u + (len) / 100u)       // 单次SPI收发的最大等待时间，ms
 #define FLASH_BUSY_TIMEOUT 600    /* 等Flash空闲，ms，盖住扇区擦除max~400ms */
+
+#define W25Q64_LOG_NUM (sizeof(logs)/sizeof(logs[0]))
+
+extern osMutexId_t W25Q64_RecursiveMutexHandle;
+extern osMessageQueueId_t W25Q64QueueHandle;
+
+
+//用于日志式追加，用于每种类型的region
+typedef struct
+{
+    uint16_t region;
+    uint32_t sector_addr;
+    uint16_t slot_size;    // 必须整除256：8/16/32/64/128/256，槽才不跨页
+    uint16_t slot_count;   // =4096/slot_size
+    uint16_t slot_idx;    // 写指针，上电扫描重建
+    uint16_t last_valid_idx;   // 最后一条有效记录的槽号；0xFFFF=一条都没有
+    uint16_t seq;//1,2,3...
+} W25Q64_Log_t;
+
+static W25Q64_Log_t logs[] = {
+    { W25Q64_REGION_DATETIME,  0x001000, 16, 4096/16, 0, 0xFFFF, 1 },
+    { W25Q64_REGION_MSG_INBOX, 0x002000, MSG_MAX_SIZE,  4096/MSG_MAX_SIZE, 0, 0xFFFF, 1 },
+};
+
+/* 帧头结构体：只在 RAM 里用，不代表 Flash 布局 */
+typedef struct {
+    uint16_t magic;
+    uint16_t seq;
+    uint16_t region;
+    uint8_t  len;
+    uint8_t  checksum;
+} W25Q64_Log_Frame_Hdr_t;
+
+typedef struct// 纯数据，帧头帧尾都归日志层管
+{
+    uint8_t year,month, day;// 两位年，2000+year
+    uint8_t hour, minute, second;
+} DateTimeData_t;
 
 /**
  * @brief 拉高片选电平，不选中W25Q64
@@ -243,24 +281,30 @@ uint8_t W25Q64_Read_Data(uint32_t address, uint8_t* dataArray, uint32_t count)
     return sent;
 }
 
-//用于日志式追加，用于每种类型的region
-typedef struct
+void W25Q64_Test(void)
 {
-    uint16_t region;
-    uint32_t sector_addr;
-    uint16_t slot_size;    // 必须整除256：8/16/32/64/128/256，槽才不跨页
-    uint16_t slot_count;   // =4096/slot_size
-    uint16_t slot_idx;    // 写指针，上电扫描重建
-    uint16_t last_valid_idx;   // 最后一条有效记录的槽号；0xFFFF=一条都没有
-    uint16_t seq;//1,2,3...
-} W25Q64_Log_t;
+     uint8_t MID;							//定义用于存放MID号的变量
+     uint16_t DID;							//定义用于存放DID号的变量
 
-static W25Q64_Log_t logs[] = {
-    { W25Q64_REGION_DATETIME,  0x001000, 16, 4096/16, 0, 0xFFFF, 1 },
-    { W25Q64_REGION_MSG_INBOX, 0x002000, 64,  4096/64, 0, 0xFFFF, 1 },
-};
+     uint8_t ArrayWrite[] = {0x01, 0x02, 0x03, 0x04};	//定义要写入数据的测试数组
+     uint8_t ArrayRead[4];								//定义要读取数据的测试数组
+     char msg[50];
+     W25Q64_Init();
 
-#define W25Q64_LOG_NUM (sizeof(logs)/sizeof(logs[0]))
+     W25Q64_ReadID(&MID, &DID);			//获取W25Q64的ID号
+     sprintf(msg,"MID:%02X,DID:%04X\r\n",MID,DID);
+     HAL_UART_Transmit(&huart1,(uint8_t*)msg,strlen(msg),HAL_MAX_DELAY);
+
+     //W25Q64功能函数测试
+     W25Q64_Sector_Erase(0x000000);					//扇区擦除
+     W25Q64_Page_Program(0x000000, ArrayWrite, 4);	//将写入数据的测试数组写入到W25Q64中
+
+     W25Q64_Read_Data(0x000000, ArrayRead, 4);		//读取刚写入的测试数据到读取数据的测试数组中
+
+     sprintf(msg,"ArrayRead:%02X,%02X,%02X,%02X\r\n",ArrayRead[0],ArrayRead[1],ArrayRead[2],ArrayRead[3]);
+     HAL_UART_Transmit(&huart1,(uint8_t*)msg,strlen(msg),HAL_MAX_DELAY);
+}
+
 
 /**
  * @brief
@@ -611,6 +655,7 @@ uint8_t W25Q64_Log_Foreach_Read(uint16_t region,W25Q64_Log_Foreach_Read_cb cb,vo
     uint8_t slot[L->slot_size];
     uint16_t foreach_slot_num=0;
 
+    //从region末尾到开头，遍历slot
     for (int i=L->last_valid_idx;i>=0;i--)
     {
         if (!W25Q64_Read_Data(L->sector_addr+i*L->slot_size,slot,L->slot_size))

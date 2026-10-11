@@ -118,7 +118,7 @@ const osThreadAttr_t AHT20Task_attributes = {
 osThreadId_t W25Q64TaskHandle;
 const osThreadAttr_t W25Q64Task_attributes = {
   .name = "W25Q64Task",
-  .stack_size = 512 * 4,
+  .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityLow6,
 };
 /* Definitions for myQueue01 */

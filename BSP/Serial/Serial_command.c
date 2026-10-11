@@ -75,8 +75,6 @@ void Serial_Printf(const char* fmt, ...)
 }
 
 
-
-
 void cmd_reset_datetime_region(char* cmd)
 {
     if (HWInterface.W25Q64.Log_Reset_Region(W25Q64_REGION_DATETIME))

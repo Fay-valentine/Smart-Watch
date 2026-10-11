@@ -82,7 +82,6 @@ void LvHandlerTask(void *argument)
       {
         MessagePage_render(&message_page_inbox);
       }
-
     }
 
     //唤醒强制重刷
