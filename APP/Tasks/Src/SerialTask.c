@@ -7,51 +7,10 @@
 #include "usart.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include "Serial_command.h"
 #include "HardWare_DataAccess.h"
 #include "Bluetooth.h"
 #include "MessagePage_Inbox.h"
-
-#define RX_BUF_SIZE 256
-
-char rxBuf[RX_BUF_SIZE];
-
-void Serial_Send(uint8_t* data,uint16_t len)
-{
-    if (osMutexAcquire(SerialMutexHandle,osWaitForever)==osOK)//获取到串口资源
-    {
-        HAL_UART_Transmit_DMA(&huart1, data, len);//DMA串口发送
-
-        osSemaphoreAcquire(SerialBinarySemHandle,osWaitForever);//等待串口发送完成
-
-        osMutexRelease(SerialMutexHandle);//释放串口资源
-    }
-}
-
-/**
- * @brief 供睡眠唤醒后调用：若蓝牙处于开启状态，重新挂回空闲+DMA接收
- */
-void Serial_ResumeRx(void)
-{
-    if (!Bluetooth_GetState()) return;
-    HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t*)rxBuf, sizeof(rxBuf));
-    __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
-}
-
-/**
- * @brief 格式化串口发送
- */
-void Serial_Printf(const char* fmt, ...)
-{
-    static char buf[128];    // static: 有互斥锁保护,不占任务栈
-    va_list args;
-    va_start(args, fmt);
-    int len = vsnprintf(buf, sizeof(buf), fmt, args);
-    va_end(args);
-    if (len <= 0) return;
-    if (len > (int)sizeof(buf) - 1) len = sizeof(buf) - 1;  // 截断保护
-
-    Serial_Send((uint8_t*)buf, len);
-}
 
 
 void StartSerialTask(void *argument)
@@ -73,7 +32,7 @@ void StartSerialTask(void *argument)
         {
             if (bluetooth_enable_flag)//开启接收
             {
-                HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t*)rxBuf, sizeof(rxBuf));
+                HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t*)g_uart1_rxBuf, sizeof(g_uart1_rxBuf));
                 __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
             }
             else
@@ -83,6 +42,8 @@ void StartSerialTask(void *argument)
             bluetooth_switch = bluetooth_enable_flag;
         }
 
+        //执行串口指令
+        Serial_cmd_execute(pending_cmd);
 
     //     //循环发送时间
     //     HWInterface.RealTimeClock.GetDateTime(&nowDateTime);
@@ -109,9 +70,10 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
         if (Bluetooth_GetState()) //只有蓝牙开时，才重新开启接收（ISR里只读volatile bool，不调线程API）
         {
             //将接收到的消息拷贝到消息收件箱中
-            MessagePage_Inbox_CopyMsgFromISR(&message_page_inbox,rxBuf,Size);
+            MessagePage_Inbox_CopyMsgFromISR(&message_page_inbox,g_uart1_rxBuf,Size);
+            SerialCommand_CopyFromISR(g_uart1_rxBuf,Size);
             //重新开启DMA接收，并关闭DMA接收过半中断
-            HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t*)rxBuf, sizeof(rxBuf));
+            HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t*)g_uart1_rxBuf, sizeof(g_uart1_rxBuf));
             __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
         }
     }

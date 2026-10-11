@@ -10,6 +10,7 @@
 #include "cmsis_os2.h"
 #include "HardWare_DataAccess.h"
 #include "SerialTask.h"
+#include "Serial_command.h"
 #include "usart.h"
 
 extern osMessageQueueId_t W25Q64QueueHandle;
@@ -41,6 +42,11 @@ void StartW25Q64Task(void *argument)
      HAL_UART_Transmit(&huart1,(uint8_t*)msg,strlen(msg),HAL_MAX_DELAY);*/
 
     HWInterface.W25Q64.Init();
+    uint8_t failed_region_num=HWInterface.W25Q64.Log_Init_AllRegion();
+    if (failed_region_num>0)
+    {
+        Serial_Printf("[W25Q64] log init failed, failed region num=%u\r\n", failed_region_num);
+    }
     HWInterface.W25Q64.RestoreDateTime();
     StorageReq_t request;
 
@@ -49,24 +55,10 @@ void StartW25Q64Task(void *argument)
     {
         osMessageQueueGet(W25Q64QueueHandle,&request,NULL,osWaitForever);
 
-        if (request.region==W25Q64_REGION_DATETIME && request.len==sizeof(DateTimeStore_t))
+        if (!W25Q64_Log_Append(request.region, request.data, request.len))
         {
-            if (HWInterface.W25Q64.Sector_Erase(W25Q64_REGION_DATETIME_ADDR) &&
-                HWInterface.W25Q64.Page_Program(W25Q64_REGION_DATETIME_ADDR,request.data,request.len))
-            {
-                Serial_Printf("[W25Q64] datetime saved\r\n");
-            }
-            else
-            {
-                Serial_Printf("[W25Q64] datetime save FAIL\r\n");
-            }
+            Serial_Printf("[W25Q64] append failed\r\n");
         }
-        else
-        {
-            Serial_Printf("[W25Q64] dropped msg: region=%u len=%u\r\n",
-                          request.region, request.len);
-        }
-
     }
     /* USER CODE END StartW25Q64Task */
 }

@@ -15,6 +15,7 @@
 #include "MessagePage_Inbox.h"
 #include "user_HardwareInitTask.h"
 #include "user_LVGLTask.h"
+#include "W25Q64.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -65,6 +66,7 @@ void User_Tasks_Init(void)
   /* start timers, add new ones, ... */
 
   /* add queues, ... */
+
   MessagePage_Inbox_Init(&message_page_inbox);//消息收件箱初始化
 	/* add threads, ... */
   HardwareInitTaskHandle  = osThreadNew(HardwareInitTask, NULL, &HardwareInitTask_attributes);

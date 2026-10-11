@@ -304,7 +304,7 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-
+    //监控内存使用情况
     // lv_mem_monitor(&lv_mon);
     // Serial_Printf("[MEM] LVGL used:%u total:%u max:%u frag:%u%% | FreeRTOS free:%u min:%u\r\n",
     //               (unsigned)(lv_mon.total_size - lv_mon.free_size),

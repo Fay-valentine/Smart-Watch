@@ -168,6 +168,33 @@ uint8_t HW_W25Q64_Read_Data(uint32_t address, uint8_t* dataArray, uint32_t count
     return W25Q64_Read_Data(address,dataArray,count);
 }
 
+
+uint8_t HW_W25Q64_Log_Init_AllRegion(void)
+{
+    return W25Q64_Log_Init_AllRegion();
+}
+
+uint8_t HW_W25Q64_Log_Append(uint16_t region, const uint8_t* payload, uint16_t payload_len)
+{
+    return W25Q64_Log_Append(region,payload,payload_len);
+}
+
+uint8_t HW_W25Q64_Log_Read_LastSlot(uint16_t region, uint8_t* payload, uint16_t payload_max_len, uint16_t* read_len)
+{
+    return W25Q64_Log_Read_LastSlot(region,payload,payload_max_len,read_len);
+}
+
+uint8_t HW_W25Q64_Log_Reset(uint16_t region)
+{
+    return W25Q64_Log_Reset_Region(region);
+}
+
+uint8_t HW_W25Q64_Log_Foreach_Read(uint16_t region, W25Q64_Log_Foreach_Read_cb cb, void* arg)
+{
+    return W25Q64_Log_Foreach_Read(region,cb,arg);
+}
+
+
 void HW_W25Q64_Saved_Current_DateTime(void)
 {
     W25Q64_Saved_Current_DateTime();
@@ -225,6 +252,13 @@ HW_InterfaceTypeDef HWInterface={
         .Sector_Erase = HW_W25Q64_Sector_Erase,
         .Page_Program = HW_W25Q64_Page_Program,
         .Read_Data = HW_W25Q64_Read_Data,
+
+        .Log_Init_AllRegion = HW_W25Q64_Log_Init_AllRegion,
+        .Log_Append = HW_W25Q64_Log_Append,
+        .Log_Read_LastSlot = HW_W25Q64_Log_Read_LastSlot,
+        .Log_Foreach_Read = HW_W25Q64_Log_Foreach_Read,
+        .Log_Reset_Region = HW_W25Q64_Log_Reset,
+
         .Saved_Current_DateTime = HW_W25Q64_Saved_Current_DateTime,
         .RestoreDateTime = HW_W25Q64_RestoreDateTime,
     },

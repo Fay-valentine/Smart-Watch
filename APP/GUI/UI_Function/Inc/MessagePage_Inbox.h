@@ -28,7 +28,7 @@ typedef struct
 extern MessagePage_Inbox_t message_page_inbox;
 
 void MessagePage_Inbox_Init(MessagePage_Inbox_t* messagePage_inbox);
-void MessagePage_Inbox_CopyMsgFromISR(const MessagePage_Inbox_t* messagePage_inbox, const char* data, const uint16_t size);
+void MessagePage_Inbox_CopyMsgFromISR(const MessagePage_Inbox_t* messagePage_inbox, const char* data, uint16_t size);
 bool MessagePage_Inbox_MsgQueue_To_MsgInbox(MessagePage_Inbox_t* messagePage_inbox);
 void MessagePage_render(const MessagePage_Inbox_t* messagePage_inbox);
 

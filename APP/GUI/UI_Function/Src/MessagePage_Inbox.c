@@ -8,6 +8,7 @@
 #include <string.h>
 #include "FreeRTOS.h"
 #include "SerialTask.h"
+#include "Serial_command.h"
 #include "task.h"
 
 MessagePage_Inbox_t message_page_inbox;

@@ -116,6 +116,13 @@ typedef struct
     uint8_t(*Page_Program)(uint32_t address, uint8_t* dataArray, uint16_t count);
     uint8_t(*Sector_Erase)(uint32_t address);
     uint8_t(*Read_Data)(uint32_t address, uint8_t* dataArray, uint32_t count);
+
+    uint8_t(*Log_Init_AllRegion)(void);
+    uint8_t(*Log_Append)(uint16_t region,const uint8_t* payload,uint16_t payload_len);
+    uint8_t(*Log_Read_LastSlot)(uint16_t region,uint8_t* payload,uint16_t payload_max_len,uint16_t* read_len);
+    uint8_t(*Log_Foreach_Read)(uint16_t region,W25Q64_Log_Foreach_Read_cb cb,void* arg);
+    uint8_t(*Log_Reset_Region)(uint16_t region);
+
     void(*Saved_Current_DateTime)(void);
     void(*RestoreDateTime)(void);
 }HW_W25Q64_InterfaceTypedef;

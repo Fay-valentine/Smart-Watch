@@ -51,6 +51,7 @@ set(BSP_SOURCES
         BSP/Bluetooth/Bluetooth.c
         BSP/DHT20/dht20.c
         BSP/W25Q64/W25Q64.c
+        BSP/Serial/Serial_command.c
 )
 
 set(SYSTEM_SOURCES
@@ -147,6 +148,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         BSP/Bluetooth
         BSP/DHT20
         BSP/W25Q64
+        BSP/Serial
         System
         APP/Tasks/Inc
         APP/GUI/UI_Function/Inc
