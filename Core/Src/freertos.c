@@ -69,7 +69,7 @@ const osThreadAttr_t KeyTask_attributes = {
 osThreadId_t SerialTaskHandle;
 const osThreadAttr_t SerialTask_attributes = {
   .name = "SerialTask",
-  .stack_size = 128 * 4,
+  .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for PageBackTask */

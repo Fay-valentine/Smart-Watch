@@ -25,6 +25,7 @@ void HomePage_Init(void)
 
 void HomePage_Destroy(void)
 {
+    HomePage_Events_BgReset(); //屏幕对象将被lv_scr_load_anim(auto_del)删除,先断开bg指针
     HomePage_RTC_Stop();
 }
 

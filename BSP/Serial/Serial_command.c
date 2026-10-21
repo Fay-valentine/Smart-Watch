@@ -13,6 +13,9 @@
 #include "Bluetooth.h"
 #include "MessagePage_Inbox.h"
 #include "SerialTask.h"
+#include "ImgTransfer.h"
+#include "ImageFs.h"
+#include "HomePage_Events.h"
 
 
 char g_uart1_rxBuf[RX_BUF_SIZE];
@@ -99,6 +102,26 @@ void Serial_cmd_execute(char* cmd)
     }
 
     cmd_pending_flag=0;
+
+    //带参数的命令走前缀分流（cmd_table是strcmp全等匹配，装不下参数命令）
+    if (strncmp(cmd, "imgopen ", 8) == 0)
+    {
+        ImgTransfer_OpenCmd(cmd);
+        return;
+    }
+
+    //切换首页背景: "bg <槽号0/1/2>"
+    if (strncmp(cmd, "bg ", 3) == 0)
+    {
+        char d = cmd[3];
+        if (d < '0' || d >= '0' + IMG_SLOT_MAX) { Serial_Printf("BG ERR SLOT\r\n"); return; }
+        uint8_t slot = d - '0';
+        if (!ImgFs_SlotHasValidImage(slot))  { Serial_Printf("BG ERR EMPTY\r\n"); return; }
+        if (HomePage_RequestBg(slot))          Serial_Printf("BG OK %d\r\n", slot);
+        else                                   Serial_Printf("BG ERR\r\n");
+        return;
+    }
+
     for (int i=0;i<sizeof(cmd_table)/sizeof(cmd_table[0]);i++)
     {
         if (strcmp(cmd,cmd_table[i].cmd)==0)

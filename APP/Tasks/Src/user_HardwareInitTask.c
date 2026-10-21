@@ -17,6 +17,7 @@
 #include "lv_port_indev.h"
 #include "PageManager.h"
 #include "tim.h"
+#include "ImageFs.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -50,8 +51,10 @@ void HardwareInitTask(void *argument)
     lv_port_disp_init();
     lv_port_indev_init();
     Page_Init();    /* 页面栈接管首页加载，替代 SquareLine 生成的 ui_init()，避免双重加载/重复建屏 */
+    ImgFs_Init();   /* 注册'S'盘:只动LVGL全局链表,无RTOS等待,调度器暂停区可安全调用 */
 
     xTaskResumeAll();
+    ImgFs_SelfTest(); /* 自检走Serial_Printf/W25Q64互斥锁,必须在调度器恢复之后 */
 		vTaskDelete(NULL);
 	}
 }

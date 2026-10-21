@@ -61,6 +61,14 @@ void MessagePage_Inbox_CopyMsgFromISR(const MessagePage_Inbox_t* messagePage_inb
         return;
     }
 
+    //串口命令行不入收件箱（imgopen/bg/W25Q64:开头的都是PC命令,不是消息内容）
+    if ((size >= 8 && memcmp(data, "imgopen ", 8) == 0) ||
+        (size >= 3 && memcmp(data, "bg ", 3) == 0) ||
+        (size >= 7 && memcmp(data, "W25Q64:", 7) == 0))
+    {
+        return;
+    }
+
     //对消息长度进行 截断保护（即限制数据的大小）
     uint16_t copy_size=(size < MSG_MAX_SIZE - 1) ? size : (MSG_MAX_SIZE - 1);//-1是为了在末尾给终止符'\0'留空间
 
