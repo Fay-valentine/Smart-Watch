@@ -11,7 +11,6 @@
 #include "HardWare_DataAccess.h"
 #include "Bluetooth.h"
 #include "MessagePage_Inbox.h"
-#include "ImgTransfer.h"
 
 
 void StartSerialTask(void *argument)
@@ -27,7 +26,7 @@ void StartSerialTask(void *argument)
     {
         //串口接收开关：有蓝牙开关事件立即唤醒，无事件最多等1秒（顺便作为发时间的节拍）
         //osThreadFlagsWait返回时会自动清除匹配到的flag
-        int32_t flags = osThreadFlagsWait(BT_STATE_CHANGED_FLAG | IMG_DATA_FLAG, osFlagsWaitAny, 1000);
+        osThreadFlagsWait(BT_STATE_CHANGED_FLAG, osFlagsWaitAny, 1000);
 
         uint8_t bluetooth_enable_flag = Bluetooth_GetState() ? 1U : 0U;//获取蓝牙开关状态
 
@@ -47,13 +46,6 @@ void StartSerialTask(void *argument)
 
         //执行串口指令
         Serial_cmd_execute(pending_cmd);
-
-        //图片传输：有帧到达立即解析+写Flash+回ACK（否则每帧都要等1秒节拍）
-        if (flags > 0 && (flags & (int32_t)IMG_DATA_FLAG))
-        {
-            ImgTransfer_Pump();
-        }
-        ImgTransfer_Tick1s();     //不在下载态时内部立即return，开销可忽略
 
     //     //循环发送时间
     //     HWInterface.RealTimeClock.GetDateTime(&nowDateTime);
@@ -79,16 +71,9 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
     {
         if (Bluetooth_GetState()) //只有蓝牙开时，才重新开启接收（ISR里只读volatile bool，不调线程API）
         {
-            if (g_img_downloading)
-            {
-                ImgTransfer_OnRxISR(g_uart1_rxBuf,Size);  //下载模式：二进制帧进ring，不进收件箱不污染消息
-            }
-            else
-            {
-                //将接收到的消息拷贝到消息收件箱中
-                MessagePage_Inbox_CopyMsgFromISR(&message_page_inbox,g_uart1_rxBuf,Size);
-                SerialCommand_CopyFromISR(g_uart1_rxBuf,Size);
-            }
+            //将接收到的消息拷贝到消息收件箱中
+            MessagePage_Inbox_CopyMsgFromISR(&message_page_inbox,g_uart1_rxBuf,Size);
+            SerialCommand_CopyFromISR(g_uart1_rxBuf,Size);
             //重新开启DMA接收，并关闭DMA接收过半中断
             HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t*)g_uart1_rxBuf, sizeof(g_uart1_rxBuf));
             __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);

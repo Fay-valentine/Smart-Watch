@@ -9,7 +9,6 @@
 
 //gui
 #include "HomePage_RTC.h"
-#include "HomePage_Events.h"
 #include "IdleMeasure_Task.h"
 #include "Key_Task.h"
 #include "lvgl.h"
@@ -95,15 +94,6 @@ void LvHandlerTask(void *argument)
       //屏幕上就显示黑屏，因为lvgl不知道这块区域要进行刷新，不会要求重发像素，写到GRAM里
       lv_obj_invalidate(lv_scr_act());
     }
-
-    //背景图切换/开机补投:LVGL非线程安全,set_src只能在GUI任务这里做
-    //每拍无条件调用:无pending时是零成本return;开机第一次tick在此补投Init埋下的默认槽
-    uint32_t bg_flags = osThreadFlagsGet();
-    if (bg_flags & BG_SWITCH_FLAG)
-    {
-      osThreadFlagsClear(BG_SWITCH_FLAG); //请求只是提醒循环"有新的要处理",实际处理在下面
-    }
-    HomePage_ApplyPendingBg();
 
     // 限制最大休眠时间，保证按键队列被及时读取
     if(_time > 30)

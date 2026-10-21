@@ -52,7 +52,6 @@ set(BSP_SOURCES
         BSP/DHT20/dht20.c
         BSP/W25Q64/W25Q64.c
         BSP/Serial/Serial_command.c
-        BSP/Serial/ImgTransfer.c
 )
 
 set(SYSTEM_SOURCES
@@ -96,7 +95,6 @@ set(MID_FUNCTION_SOURCES
 set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/HomePage_RTC.c
         APP/GUI/UI_Function/Src/HomePage_Events.c
-        APP/GUI/UI_Function/Src/ImageFs.c
         APP/GUI/UI_Function/Src/MenuPage_Event.c
         APP/GUI/UI_Function/Src/SettingsPage_Event.c
         APP/GUI/UI_Function/Src/ControlCenterPage_Event.c

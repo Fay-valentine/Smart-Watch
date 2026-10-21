@@ -17,7 +17,6 @@
 #include "Bluetooth.h"
 #include "main.h"
 #include "Serial_command.h"
-#include "ImgTransfer.h"
 #include "stm32f4xx_it.h"
 
 extern osThreadId_t LvHandlerTaskHandle;
@@ -25,23 +24,10 @@ extern osThreadId_t LvHandlerTaskHandle;
 void StartSleepTask(void *argument)
 {
     /* USER CODE BEGIN StartSleepTask */
-    bool sleep_pending = false;
     /* Infinite loop */
     for(;;)
     {
-        //有待入睡请求时改为1s轮询(等图片传输结束);否则无限等待省功耗
-        int32_t flags = osThreadFlagsWait(SLEEP_ENTRY_FLAG, osFlagsWaitAny,
-                                          sleep_pending ? 1000 : osWaitForever);
-        if (flags > 0 && (flags & (int32_t)SLEEP_ENTRY_FLAG))
-        {
-            sleep_pending = true;
-        }
-
-        //串口图片传输期间不入睡：入睡会AbortReceive掐断RX，传输直接死。
-        //传输完成或10s静默超时中止后，下个1s节拍才真正入睡。
-        if (sleep_pending && g_img_downloading) continue;
-        if (!sleep_pending) continue;             //等待超时且无入睡请求
-        sleep_pending = false;
+        osThreadFlagsWait(SLEEP_ENTRY_FLAG, osFlagsWaitAny, osWaitForever);
 
         //sleep:
         IdleTimerCount_100ms = 0;//防止累加到超过熄屏阈值，失去熄屏功能
