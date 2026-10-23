@@ -174,4 +174,17 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     # Add user defined libraries
 )
 
+# ---------------------------------------------------------------------------
+# 编译（链接）完成后自动生成 .bin 裸镜像，输出在 elf 所在目录
+# ---------------------------------------------------------------------------
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O binary
+        $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
+        $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/${CMAKE_PROJECT_NAME}.bin
+        COMMENT "Generating ${CMAKE_PROJECT_NAME}.bin"
+)
+
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        LINK_DEPENDS "${CMAKE_SOURCE_DIR}/STM32F411XX_FLASH.ld")
+
 # ui_set 的源文件已通过 GUI_SOURCES 直接编入可执行目标，不使用 SquareLine 自带的子工程 CMake
