@@ -207,6 +207,36 @@ void HW_W25Q64_RestoreDateTime(void)
 #endif
 
 
+#if HW_USE_MPU6050
+
+uint8_t HW_MPU6050_Init(void)
+{
+    return mpu_dmp_init();
+}
+
+uint32_t HW_MPU6050_GetSteps(void)
+{
+    if (HWInterface.MPU6050.connection_error==0)
+    {
+        uint32_t steps=0;
+        dmp_get_pedometer_step_count(&steps);
+        return steps;
+    }
+    return 0;
+}
+
+int HW_MPU6050_SetSteps(uint32_t steps)
+{
+    if (HWInterface.MPU6050.connection_error==0)
+    {
+        return dmp_set_pedometer_step_count(steps);
+    }
+    return -1;
+}
+
+#endif
+
+
 //这里实现了接口
 HW_InterfaceTypeDef HWInterface={
 #if HW_USE_RTC
@@ -264,6 +294,15 @@ HW_InterfaceTypeDef HWInterface={
     },
 #endif
 
+#if HW_USE_MPU6050
+    .MPU6050 = {
+        .connection_error = 1,//默认初始化不成功
+        .steps = 0,
+        .Init = HW_MPU6050_Init,
+        .GetSteps = HW_MPU6050_GetSteps,
+        .SetSteps = HW_MPU6050_SetSteps,
+    },
+#endif
 
 
 };

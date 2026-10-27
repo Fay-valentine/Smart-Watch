@@ -64,6 +64,10 @@ void Error_Handler(void);
 #define Key1_Pin GPIO_PIN_0
 #define Key1_GPIO_Port GPIOA
 #define Key1_EXTI_IRQn EXTI0_IRQn
+#define MPU6050_SCL_Pin GPIO_PIN_6
+#define MPU6050_SCL_GPIO_Port GPIOA
+#define MPU6050_SDA_Pin GPIO_PIN_7
+#define MPU6050_SDA_GPIO_Port GPIOA
 #define DHT20_SCL_Pin GPIO_PIN_4
 #define DHT20_SCL_GPIO_Port GPIOC
 #define DHT20_SDA_Pin GPIO_PIN_5

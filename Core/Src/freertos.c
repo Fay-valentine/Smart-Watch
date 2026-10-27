@@ -107,11 +107,11 @@ const osThreadAttr_t WWDOG_Task_attributes = {
   .stack_size = 64 * 4,
   .priority = (osPriority_t) osPriorityHigh1,
 };
-/* Definitions for AHT20Task */
-osThreadId_t AHT20TaskHandle;
-const osThreadAttr_t AHT20Task_attributes = {
-  .name = "AHT20Task",
-  .stack_size = 256 * 4,
+/* Definitions for SensorTask */
+osThreadId_t SensorTaskHandle;
+const osThreadAttr_t SensorTask_attributes = {
+  .name = "SensorTask",
+  .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityLow7,
 };
 /* Definitions for W25Q64Task */
@@ -171,7 +171,7 @@ void StartMsgInboxTask(void *argument);
 void StartIdleMonitorTask(void *argument);
 void StartSleepTask(void *argument);
 void StartWWDOGTask(void *argument);
-void StartAHT20Task(void *argument);
+void StartSensorTask(void *argument);
 void StartW25Q64Task(void *argument);
 void IdleTimerCallback(void *argument);
 
@@ -215,7 +215,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the semaphores(s) */
   /* creation of SerialBinarySem */
-  SerialBinarySemHandle = osSemaphoreNew(1, 1, &SerialBinarySem_attributes);
+  SerialBinarySemHandle = osSemaphoreNew(1, 0, &SerialBinarySem_attributes);
 
   /* creation of SPI2_tx_BinarySem */
   SPI2_tx_BinarySemHandle = osSemaphoreNew(1, 1, &SPI2_tx_BinarySem_attributes);
@@ -274,8 +274,8 @@ void MX_FREERTOS_Init(void) {
   /* creation of WWDOG_Task */
   WWDOG_TaskHandle = osThreadNew(StartWWDOGTask, NULL, &WWDOG_Task_attributes);
 
-  /* creation of AHT20Task */
-  AHT20TaskHandle = osThreadNew(StartAHT20Task, NULL, &AHT20Task_attributes);
+  /* creation of SensorTask */
+  SensorTaskHandle = osThreadNew(StartSensorTask, NULL, &SensorTask_attributes);
 
   /* creation of W25Q64Task */
   W25Q64TaskHandle = osThreadNew(StartW25Q64Task, NULL, &W25Q64Task_attributes);
@@ -314,7 +314,7 @@ void StartDefaultTask(void *argument)
     //               (unsigned)xPortGetFreeHeapSize(),
     //               (unsigned)xPortGetMinimumEverFreeHeapSize());
     //
-    // osDelay(5000);
+    osDelay(5000);
   }
   /* USER CODE END StartDefaultTask */
 }
@@ -445,22 +445,22 @@ __weak void StartWWDOGTask(void *argument)
   /* USER CODE END StartWWDOGTask */
 }
 
-/* USER CODE BEGIN Header_StartAHT20Task */
+/* USER CODE BEGIN Header_StartSensorTask */
 /**
-* @brief Function implementing the AHT20Task thread.
+* @brief Function implementing the SensorTask thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartAHT20Task */
-__weak void StartAHT20Task(void *argument)
+/* USER CODE END Header_StartSensorTask */
+__weak void StartSensorTask(void *argument)
 {
-  /* USER CODE BEGIN StartAHT20Task */
+  /* USER CODE BEGIN StartSensorTask */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END StartAHT20Task */
+  /* USER CODE END StartSensorTask */
 }
 
 /* USER CODE BEGIN Header_StartW25Q64Task */

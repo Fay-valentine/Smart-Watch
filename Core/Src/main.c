@@ -79,6 +79,7 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+
   /* USER CODE BEGIN Init */
   //HAL_DBGMCU_EnableDBGStopMode();   /* 允许调试器在 STOP 模式下 halt 内核 */
   /* USER CODE END Init */
