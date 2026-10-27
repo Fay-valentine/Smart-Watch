@@ -52,6 +52,9 @@ set(BSP_SOURCES
         BSP/DHT20/dht20.c
         BSP/W25Q64/W25Q64.c
         BSP/Serial/Serial_command.c
+        BSP/MPU6050/mpu6050.c
+        BSP/MPU6050/eMPL/inv_mpu.c
+        BSP/MPU6050/eMPL/inv_mpu_dmp_motion_driver.c
 )
 
 set(SYSTEM_SOURCES
@@ -82,7 +85,7 @@ set(TASKS_SOURCES
         APP/Tasks/Src/IdleMeasure_Task.c
         APP/Tasks/Src/Sleep_Task.c
         APP/Tasks/Src/WWDOG_Task.c
-        APP/Tasks/Src/DHT20_Task.c
+        APP/Tasks/Src/Sensor.c
         APP/Tasks/Src/W25Q64_Task.c
 )
 
@@ -104,6 +107,7 @@ set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/MessagePage_Inbox.c
         APP/GUI/UI_Function/Src/ScreenOffPage_Event.c
         APP/GUI/UI_Function/Src/EnvironmentPage_Event.c
+        APP/GUI/UI_Function/Src/StepsCountPage_Event.c
 )
 
 set(LVGL_PORT_SOURCES
@@ -149,6 +153,8 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         BSP/DHT20
         BSP/W25Q64
         BSP/Serial
+        BSP/MPU6050
+        BSP/MPU6050/eMPL
         System
         APP/Tasks/Inc
         APP/GUI/UI_Function/Inc

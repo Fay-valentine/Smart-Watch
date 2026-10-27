@@ -16,6 +16,7 @@
     #define HW_USE_LCD          1
     #define HW_USE_DHT20        1
     #define HW_USE_W25Q64       1
+    #define HW_USE_MPU6050      1
 
 #endif
 
@@ -39,6 +40,11 @@
     #include "W25Q64.h"
 #endif
 
+#if HW_USE_MPU6050
+    #include "mpu6050.h"
+    #include "inv_mpu.h"
+    #include "inv_mpu_dmp_motion_driver.h"
+#endif
 
 
 /**
@@ -106,6 +112,8 @@ typedef struct
     void(*Read)(float *Temperature,float *Humidity);
 }HW_DHT20_InterfaceTypedef;
 
+
+
 //W25Q64
 typedef struct
 {
@@ -127,6 +135,14 @@ typedef struct
     void(*RestoreDateTime)(void);
 }HW_W25Q64_InterfaceTypedef;
 
+typedef struct
+{
+    uint8_t connection_error;//是否成功初始化，1：初始化失败  2：初始化成功
+    uint32_t steps;
+    uint8_t(*Init)(void);
+    uint32_t(*GetSteps)(void);
+    int(*SetSteps)(uint32_t steps);
+}HW_MPU6050_InterfaceTypedef;
 
 //总接口
 typedef struct
@@ -136,6 +152,7 @@ typedef struct
     HW_LCD_InterfaceTypedef LCD;
     HW_DHT20_InterfaceTypedef DHT20;
     HW_W25Q64_InterfaceTypedef W25Q64;
+    HW_MPU6050_InterfaceTypedef MPU6050;
 }HW_InterfaceTypeDef;
 
 

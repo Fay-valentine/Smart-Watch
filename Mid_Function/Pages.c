@@ -10,6 +10,7 @@
 #include "ScreenOffPage_Event.h"
 #include "SetDatePage_Event.h"
 #include "SetTimePage_Event.h"
+#include "StepsCountPage_Event.h"
 #include "StopwatchPage_Event.h"
 
 /* 页面注册表：新增页面时照抄一行即可 */
@@ -96,11 +97,12 @@ Page_t EnvironmentPage = {EnvironmentPage_Init, EnvironmentPage_Destroy, &ui_Env
 void StepsCountPage_Init(void)
 {
     ui_StepsCountPage_screen_init();
+    StepsCountPage_Start_Refresh();
 }
 
 void StepsCountPage_Destroy(void)
 {
-
+    StepsCountPage_Stop_Refresh();
 }
 
 Page_t StepsCountPage = {StepsCountPage_Init, StepsCountPage_Destroy, &ui_StepsCountPage};
