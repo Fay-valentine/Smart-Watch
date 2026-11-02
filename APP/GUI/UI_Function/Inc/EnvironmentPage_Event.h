@@ -7,5 +7,6 @@
 
 void EnvironmentPage_Start_Refresh(void);
 void EnvironmentPage_Stop_Refresh(void);
+void EnvironmentPage_Stop_Init_Current_Data(void);
 
 #endif //INC_10_WATCH_ENVIRONMENTPAGE_EVENT_H

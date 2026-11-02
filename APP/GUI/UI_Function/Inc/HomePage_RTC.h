@@ -18,5 +18,6 @@ extern uint8_t ui_DateWeekdayValue;
 void HomePage_RTC_ForceFresh(void);
 void HomePage_RTC_Start(void);
 void HomePage_RTC_Stop(void);
+void HomePage_RTC_ApplyNow(void);
 
 #endif //INC_10_WATCH_HOMEPAGE_RTC_H

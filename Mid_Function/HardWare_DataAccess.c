@@ -268,6 +268,8 @@ HW_InterfaceTypeDef HWInterface={
 
 #if HW_USE_DHT20
     .DHT20 = {
+        .temperature = 0.0f,
+        .humidity = 0.0f,
         .Init = HW_DHT20_Init,
         .Read = HW_DHT20_Read,
     },

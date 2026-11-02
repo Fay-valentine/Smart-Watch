@@ -14,6 +14,7 @@ cmake-build-*/
 # IDE
 .idea/
 .vscode/
+.claude/
 *.user
 
 # CubeMX 生成物（.ioc 保留）
@@ -24,3 +25,13 @@ cmake-build-*/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Bootloader
+/Bootloader/MDK-ARM/IAP_F411/
+
+# Keil 其他中间文件
+*.crf
+*.axf
+*.lnp
+*.dep
+*.sct

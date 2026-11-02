@@ -7,5 +7,6 @@
 
 void StepsCountPage_Start_Refresh(void);
 void StepsCountPage_Stop_Refresh(void);
+void StepsCountPage_Stop_Init_Current_Steps(void);
 
 #endif //INC_10_WATCH_STEPSCOUNTPAGE_EVENT_H

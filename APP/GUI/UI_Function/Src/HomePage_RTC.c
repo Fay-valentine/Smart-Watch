@@ -60,6 +60,30 @@ void HomePage_RTC_Stop(void)
 }
 
 /**
+ * @brief 在页面初始化后调用，将当前时间日期显示在首页上
+ */
+void HomePage_RTC_ApplyNow(void)
+{
+    char buf[10];
+    HW_DateTimeTypeDef now;
+    HWInterface.RealTimeClock.GetDateTime(&now);
+
+    // 同时同步影子变量，保证“缓存 == 屏幕显示”这个不变量
+    ui_TimeHourValue    = now.Hours;
+    ui_TimeMinuteValue  = now.Minutes;
+    ui_DateMonthValue   = now.Month;
+    ui_DateDayValue     = now.Date;
+    ui_DateWeekdayValue = now.WeekDay;
+
+    sprintf(buf, "%02d", now.Hours);   lv_label_set_text(ui_TimeHour, buf);
+    sprintf(buf, "%02d", now.Minutes); lv_label_set_text(ui_TimeMinute, buf);
+    sprintf(buf, "%02d", now.Month);   lv_label_set_text(ui_Month, buf);
+    sprintf(buf, "%02d", now.Date);    lv_label_set_text(ui_Date, buf);
+    lv_label_set_text(ui_Week, ui_Days[now.WeekDay - 1]);
+}
+
+
+/**
  * @brief 首页时间刷新 回调函数
  */
 static void HomePage_RTC_Fresh_cb(lv_timer_t* timer)

@@ -20,6 +20,7 @@
 void HomePage_Init(void)
 {
     ui_HomePage_screen_init();
+    HomePage_RTC_ApplyNow();
     HomePage_Events_Init();//注册滑动事件
     HomePage_RTC_Start();
 }
@@ -82,6 +83,7 @@ Page_t StopwatchPage = {StopwatchPage_Init, StopwatchPage_Destroy, &ui_Stopwatch
 void EnvironmentPage_Init(void)
 {
     ui_EnvironmentPage_screen_init();
+    EnvironmentPage_Stop_Init_Current_Data();
     EnvironmentPage_Start_Refresh();
 }
 
@@ -97,6 +99,7 @@ Page_t EnvironmentPage = {EnvironmentPage_Init, EnvironmentPage_Destroy, &ui_Env
 void StepsCountPage_Init(void)
 {
     ui_StepsCountPage_screen_init();
+    StepsCountPage_Stop_Init_Current_Steps();
     StepsCountPage_Start_Refresh();
 }
 

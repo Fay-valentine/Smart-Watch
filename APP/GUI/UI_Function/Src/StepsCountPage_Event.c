@@ -41,3 +41,13 @@ void StepsCountPage_Stop_Refresh(void)
         StepsCountPage_Timer=NULL;
     }
 }
+
+/**
+ * @brief 步数页面在初始化时调用，让ui显示当前步数
+ */
+void StepsCountPage_Stop_Init_Current_Steps(void)
+{
+    lv_label_set_text_fmt(ui_nowStepLabel, "%lu", HWInterface.MPU6050.steps);
+    ui_StepsCountLabel_value=HWInterface.MPU6050.steps;
+    lv_arc_set_value(ui_StepsArc, (int16_t)(HWInterface.MPU6050.steps>10000?10000:HWInterface.MPU6050.steps));
+}

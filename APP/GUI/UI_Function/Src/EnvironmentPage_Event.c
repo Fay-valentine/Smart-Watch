@@ -50,3 +50,17 @@ void EnvironmentPage_Stop_Refresh(void)
         EnvironmentPage_Timer=NULL;
     }
 }
+
+/**
+ * @brief 在环境页面初始化时调用，让ui显示当前环境数据
+ */
+void EnvironmentPage_Stop_Init_Current_Data(void)
+{
+    lv_label_set_text_fmt(ui_TemperatureLabel, "%.1f", HWInterface.DHT20.temperature);
+    ui_temperatureLabel_value=HWInterface.DHT20.temperature;
+    lv_bar_set_value(ui_TemperatureBar, (int32_t)HWInterface.DHT20.temperature, LV_ANIM_ON);
+
+    lv_label_set_text_fmt(ui_HumidityLabel, "%.1f", HWInterface.DHT20.humidity);
+    ui_humidityLabel_value=HWInterface.DHT20.humidity;
+    lv_bar_set_value(ui_HumidityBar, (int32_t)HWInterface.DHT20.humidity, LV_ANIM_ON);
+}
