@@ -23,37 +23,41 @@ void ui_event_ScreenOffPage_cb(lv_event_t* e)
     char select[10];
     lv_roller_get_selected_str(ui_ScreenOffRoller,select,sizeof(select));
 
-    if (strcmp(select,"15s")==0)
+    if (strcmp(select,"never")!=0)
     {
-        Idle_Monitor_Set_LightOff_Time(150);
-    }
-    else if (strcmp(select,"30s")==0)
-    {
-        Idle_Monitor_Set_LightOff_Time(300);
-    }
-    else if (strcmp(select,"60s")==0)
-    {
-        Idle_Monitor_Set_LightOff_Time(600);
-    }
-    else if (strcmp(select,"2min")==0)
-    {
-        Idle_Monitor_Set_LightOff_Time(1200);
-    }
-    else if (strcmp(select,"5min")==0)
-    {
-        Idle_Monitor_Set_LightOff_Time(3000);
-    }
-    else if (strcmp(select,"10min")==0)
-    {
-        Idle_Monitor_Set_LightOff_Time(6000);
-    }
-    else if (strcmp(select,"30min")==0)
-    {
-        Idle_Monitor_Set_LightOff_Time(18000);
-    }
-    else if (strcmp(select,"1hour")==0)
-    {
-        Idle_Monitor_Set_LightOff_Time(36000);
+        Idle_Monitor_Switch(true);//先打开空闲检测，防止上一次设置为never，关闭了空闲检测
+        if (strcmp(select,"15s")==0)
+        {
+            Idle_Monitor_Set_LightOff_Time(150);
+        }
+        else if (strcmp(select,"30s")==0)
+        {
+            Idle_Monitor_Set_LightOff_Time(300);
+        }
+        else if (strcmp(select,"60s")==0)
+        {
+            Idle_Monitor_Set_LightOff_Time(600);
+        }
+        else if (strcmp(select,"2min")==0)
+        {
+            Idle_Monitor_Set_LightOff_Time(1200);
+        }
+        else if (strcmp(select,"5min")==0)
+        {
+            Idle_Monitor_Set_LightOff_Time(3000);
+        }
+        else if (strcmp(select,"10min")==0)
+        {
+            Idle_Monitor_Set_LightOff_Time(6000);
+        }
+        else if (strcmp(select,"30min")==0)
+        {
+            Idle_Monitor_Set_LightOff_Time(18000);
+        }
+        else if (strcmp(select,"1hour")==0)
+        {
+            Idle_Monitor_Set_LightOff_Time(36000);
+        }
     }
     else if (strcmp(select,"never")==0)
     {
