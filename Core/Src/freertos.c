@@ -63,28 +63,28 @@ osThreadId_t KeyTaskHandle;
 const osThreadAttr_t KeyTask_attributes = {
   .name = "KeyTask",
   .stack_size = 64 * 4,
-  .priority = (osPriority_t) osPriorityHigh,
+  .priority = (osPriority_t) osPriorityHigh1,
 };
 /* Definitions for SerialTask */
 osThreadId_t SerialTaskHandle;
 const osThreadAttr_t SerialTask_attributes = {
   .name = "SerialTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal,
 };
 /* Definitions for PageBackTask */
 osThreadId_t PageBackTaskHandle;
 const osThreadAttr_t PageBackTask_attributes = {
   .name = "PageBackTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal7,
+  .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for MsgInbox_Task */
 osThreadId_t MsgInbox_TaskHandle;
 const osThreadAttr_t MsgInbox_Task_attributes = {
   .name = "MsgInbox_Task",
   .stack_size = 256 * 4,
-  .priority = (osPriority_t) osPriorityLow7,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for IdleMonitorTask */
 osThreadId_t IdleMonitorTaskHandle;
@@ -112,14 +112,14 @@ osThreadId_t SensorTaskHandle;
 const osThreadAttr_t SensorTask_attributes = {
   .name = "SensorTask",
   .stack_size = 512 * 4,
-  .priority = (osPriority_t) osPriorityLow7,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for W25Q64Task */
 osThreadId_t W25Q64TaskHandle;
 const osThreadAttr_t W25Q64Task_attributes = {
   .name = "W25Q64Task",
   .stack_size = 1024 * 4,
-  .priority = (osPriority_t) osPriorityLow6,
+  .priority = (osPriority_t) osPriorityBelowNormal,
 };
 /* Definitions for myQueue01 */
 osMessageQueueId_t myQueue01Handle;

@@ -34,7 +34,7 @@ osThreadId_t HardwareInitTaskHandle;
 const osThreadAttr_t HardwareInitTask_attributes = {
   .name = "HardwareInitTask",
   .stack_size = 128 * 10,
-  .priority = (osPriority_t) osPriorityHigh,
+  .priority = (osPriority_t) osPriorityHigh7,
 };
 
 // LVGL Handler task
@@ -42,7 +42,7 @@ osThreadId_t LvHandlerTaskHandle;
 const osThreadAttr_t LvHandlerTask_attributes = {
   .name = "LvHandlerTask",
   .stack_size = 128 * 24,
-  .priority = (osPriority_t) osPriorityLow1,
+  .priority = (osPriority_t) osPriorityHigh6,
 };
 
 
