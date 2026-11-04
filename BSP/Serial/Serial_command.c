@@ -27,6 +27,8 @@ static volatile uint8_t cmd_pending_flag = 0;  //1 = 有指令待处理
 typedef void(*CommandFunc_t)(char* cmd);
 
 void cmd_reset_datetime_region(char* cmd);
+void cmd_reset_msg_inbox_region(char* cmd);
+
 
 typedef struct
 {
@@ -37,6 +39,7 @@ typedef struct
 Command_t cmd_table[]=
 {
     {"W25Q64:Reset datetime region",cmd_reset_datetime_region},
+    {"W25Q64:Reset msg inbox region",cmd_reset_msg_inbox_region},
 };
 
 
@@ -88,7 +91,11 @@ void Serial_Printf(const char* fmt, ...)
     len = vsnprintf(buf, sizeof(buf), fmt, args);
     va_end(args);
 
-    if (len <= 0) return;
+    if (len <= 0)
+    {
+        osMutexRelease(SerialMutexHandle);
+        return;
+    }
     if (len > sizeof(buf) - 1)
     {
         len = sizeof(buf) - 1;  // 截断保护
@@ -122,6 +129,18 @@ void cmd_reset_datetime_region(char* cmd)
     else
     {
         Serial_Printf("Reset datetime region failed\r\n");
+    }
+}
+
+void cmd_reset_msg_inbox_region(char* cmd)
+{
+    if (HWInterface.W25Q64.Log_Reset_Region(W25Q64_REGION_MSG_INBOX))
+    {
+        Serial_Printf("Reset msg inbox region success\r\n");
+    }
+    else
+    {
+        Serial_Printf("Reset msg inbox region failed\r\n");
     }
 }
 

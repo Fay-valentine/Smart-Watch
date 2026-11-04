@@ -266,19 +266,20 @@ uint8_t W25Q64_Read_Data(uint32_t address, uint8_t* dataArray, uint32_t count)
     uint8_t cmd[4]={W25Q64_READ_DATA,(uint8_t)(address>>16)&0xFF,
                     (uint8_t)(address>>8)&0xFF,(uint8_t)address&0xFF};
 
-    uint8_t sent=0;//cmd是否被发送 0:未发送 1:已发送
-
-    osMutexAcquire(W25Q64_RecursiveMutexHandle,osWaitForever);
-
-    W25Q64_CS_Low();
-
-    sent = SPI2_Send(cmd,4) && SPI2_Recv(dataArray,count);
-
-    W25Q64_CS_High();
-
-    osMutexRelease(W25Q64_RecursiveMutexHandle);
-
-    return sent;
+    for (uint8_t attempt = 0; attempt < 3; attempt++)
+    {
+        uint8_t sent = 0;
+        osMutexAcquire(W25Q64_RecursiveMutexHandle,osWaitForever);
+        W25Q64_CS_Low();
+        sent = SPI2_Send(cmd,4) && SPI2_Recv(dataArray,count);
+        W25Q64_CS_High();
+        osMutexRelease(W25Q64_RecursiveMutexHandle);
+        if (sent)
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 void W25Q64_Test(void)
@@ -482,6 +483,7 @@ uint8_t W25Q64_Log_Init_AllRegion(void)
     {
         if (!Log_Init_oneRegion(&logs[i]))
         {
+            Serial_Printf("[W25Q64] region=%u init failed\r\n", logs[i].region);
             failed_region_num++;
         }
     }
