@@ -18,7 +18,7 @@ void StartSerialTask(void *argument)
     /* USER CODE BEGIN StartSerialTask */
     HW_DateTimeTypeDef nowDateTime;
 
-    HWInterface.Bluetooth.Set(true);//默认开启蓝牙
+
     uint8_t bluetooth_switch = 0;
 
     /* Infinite loop */

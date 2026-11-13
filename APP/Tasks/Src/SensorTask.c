@@ -2,9 +2,10 @@
 // Created by a1191 on 2026/10/2.
 //
 
-#include "../Inc/Sensor.h"
+#include "../Inc/SensorTask.h"
 
 #include "cmsis_os2.h"
+#include "HardwareInitTask.h"
 #include "HardWare_DataAccess.h"
 #include "IdleMeasure_Task.h"
 #include "PageManager.h"
@@ -14,23 +15,19 @@
 #include "screens/ui_EnvironmentPage.h"
 
 extern osThreadId_t IdleMonitorTaskHandle;
+extern osEventFlagsId_t BootEventHandle;
 
 void StartSensorTask(void *argument)
 {
     /* USER CODE BEGIN StartSensorTask */
-    //DHT20
-    HWInterface.DHT20.Init();
+    osEventFlagsWait(BootEventHandle,
+    BOOT_EVT_SENSOR_READY|BOOT_EVT_UI_READY,
+    osFlagsWaitAll|osFlagsNoClear,
+    osWaitForever);
+
     float temperature=0.0f;
     float humidity=0.0f;
 
-    //MPU6050
-    uint8_t num=3;
-    while (num && HWInterface.MPU6050.connection_error)
-    {
-        num--;
-        HWInterface.MPU6050.connection_error=HWInterface.MPU6050.Init();
-    }
-    Serial_Printf("[MPU] init ret=%u (0=ok)\r\n", HWInterface.MPU6050.connection_error);
 
     HW_DateTimeTypeDef now_Date;
     HWInterface.RealTimeClock.GetDateTime(&now_Date);

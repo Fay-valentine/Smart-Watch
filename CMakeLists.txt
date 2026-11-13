@@ -75,17 +75,15 @@ endforeach()
 
 
 set(TASKS_SOURCES
-        APP/Tasks/Src/user_HardwareInitTask.c
-        APP/Tasks/Src/user_LVGLTask.c
-        APP/Tasks/Src/user_TasksInit.c
+        APP/Tasks/Src/HardwareInitTask.c
+        APP/Tasks/Src/LVGLTask.c
         APP/Tasks/Src/Key_Task.c
         APP/Tasks/Src/SerialTask.c
         APP/Tasks/Src/PageBack_Task.c
         APP/Tasks/Src/Message_Inbox_Task.c
         APP/Tasks/Src/IdleMeasure_Task.c
         APP/Tasks/Src/Sleep_Task.c
-        APP/Tasks/Src/WWDOG_Task.c
-        APP/Tasks/Src/Sensor.c
+        APP/Tasks/Src/SensorTask.c
         APP/Tasks/Src/W25Q64_Task.c
 )
 

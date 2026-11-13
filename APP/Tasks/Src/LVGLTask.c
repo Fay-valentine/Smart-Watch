@@ -5,9 +5,10 @@
 
 // tasks
 #include "user_TasksInit.h"
-#include "user_LVGLTask.h"
+#include "LVGLTask.h"
 
 //gui
+#include "HardwareInitTask.h"
 #include "HomePage_RTC.h"
 #include "IdleMeasure_Task.h"
 #include "Key_Task.h"
@@ -27,6 +28,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 extern osThreadId_t IdleMonitorTaskHandle;
+extern osEventFlagsId_t BootEventHandle;
 /* Private function prototypes -----------------------------------------------*/
 
 
@@ -49,8 +51,13 @@ void TaskTickHook(void)
   * @param  argument: Not used
   * @retval None
   */
-void LvHandlerTask(void *argument)
+void StartLvHandlerTask(void *argument)
 {
+  //等待初始化完成
+  osEventFlagsWait(BootEventHandle,
+    BOOT_EVT_UI_READY,
+    osFlagsWaitAll|osFlagsNoClear,
+    osWaitForever);
   uint32_t _time = 1; // default delay time
   while(1)
   {

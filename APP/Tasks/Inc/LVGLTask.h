@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-void LvHandlerTask(void *argument);
+void StartLvHandlerTask(void *argument);
     void TaskTickHook(void);
 
 #ifdef __cplusplus

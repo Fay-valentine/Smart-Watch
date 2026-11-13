@@ -7,6 +7,7 @@
 #include "cmsis_os2.h"
 #include <stdbool.h>
 
+#include "HardwareInitTask.h"
 #include "IdleMeasure_Task.h"
 #include "lvgl.h"
 #include "Serial_command.h"
@@ -17,13 +18,18 @@
 
 extern osThreadId_t IdleMonitorTaskHandle;
 extern osMessageQueueId_t W25Q64QueueHandle;
+extern osEventFlagsId_t BootEventHandle;
 
 void StartMsgInboxTask(void *argument)
 {
     /* USER CODE BEGIN StartMsgInboxTask */
+    //等待初始化完成
+    osEventFlagsWait(BootEventHandle,
+    BOOT_EVT_STORAGE_READY|BOOT_EVT_UI_READY,
+    osFlagsWaitAll|osFlagsNoClear,
+    osWaitForever);
+
     uint8_t new_msg_count=0;
-    // 等W25Q64启动恢复完成再开始搬运，避免与恢复回调并发写msg_list
-    osThreadFlagsWait(W25Q64_MSG_INBOX_RESTORED_FLAG, osFlagsWaitAny, osWaitForever);
     /* Infinite loop */
     for(;;)
     {

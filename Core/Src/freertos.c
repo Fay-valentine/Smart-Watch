@@ -26,7 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "user_TasksInit.h"
-#include "user_LVGLTask.h"
+#include "LVGLTask.h"
 #include "W25Q64.h"
 #include "SerialTask.h"
 #include "lvgl.h"
@@ -100,13 +100,6 @@ const osThreadAttr_t Sleep_Task_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
-/* Definitions for WWDOG_Task */
-osThreadId_t WWDOG_TaskHandle;
-const osThreadAttr_t WWDOG_Task_attributes = {
-  .name = "WWDOG_Task",
-  .stack_size = 64 * 4,
-  .priority = (osPriority_t) osPriorityHigh1,
-};
 /* Definitions for SensorTask */
 osThreadId_t SensorTaskHandle;
 const osThreadAttr_t SensorTask_attributes = {
@@ -121,10 +114,19 @@ const osThreadAttr_t W25Q64Task_attributes = {
   .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityBelowNormal,
 };
-/* Definitions for myQueue01 */
-osMessageQueueId_t myQueue01Handle;
-const osMessageQueueAttr_t myQueue01_attributes = {
-  .name = "myQueue01"
+/* Definitions for HardwareInitTask */
+osThreadId_t HardwareInitTaskHandle;
+const osThreadAttr_t HardwareInitTask_attributes = {
+  .name = "HardwareInitTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityHigh7,
+};
+/* Definitions for LvHandlerTask */
+osThreadId_t LvHandlerTaskHandle;
+const osThreadAttr_t LvHandlerTask_attributes = {
+  .name = "LvHandlerTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityHigh6,
 };
 /* Definitions for IdleTimer */
 osTimerId_t IdleTimerHandle;
@@ -157,6 +159,11 @@ osSemaphoreId_t SPI2_rx_BinarySemHandle;
 const osSemaphoreAttr_t SPI2_rx_BinarySem_attributes = {
   .name = "SPI2_rx_BinarySem"
 };
+/* Definitions for BootEvent */
+osEventFlagsId_t BootEventHandle;
+const osEventFlagsAttr_t BootEvent_attributes = {
+  .name = "BootEvent"
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -170,9 +177,10 @@ void StartPageBackTask(void *argument);
 void StartMsgInboxTask(void *argument);
 void StartIdleMonitorTask(void *argument);
 void StartSleepTask(void *argument);
-void StartWWDOGTask(void *argument);
 void StartSensorTask(void *argument);
 void StartW25Q64Task(void *argument);
+void StartHardwareInitTask(void *argument);
+void StartLvHandlerTask(void *argument);
 void IdleTimerCallback(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -199,7 +207,6 @@ void vApplicationTickHook( void )
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
-  User_Tasks_Init();
   /* USER CODE END Init */
   /* Create the mutex(es) */
   /* creation of SerialMutex */
@@ -236,10 +243,6 @@ void MX_FREERTOS_Init(void) {
   osTimerStart(IdleTimerHandle, 100);//100ms
   /* USER CODE END RTOS_TIMERS */
 
-  /* Create the queue(s) */
-  /* creation of myQueue01 */
-  myQueue01Handle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue01_attributes);
-
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
 
@@ -271,18 +274,24 @@ void MX_FREERTOS_Init(void) {
   /* creation of Sleep_Task */
   Sleep_TaskHandle = osThreadNew(StartSleepTask, NULL, &Sleep_Task_attributes);
 
-  /* creation of WWDOG_Task */
-  WWDOG_TaskHandle = osThreadNew(StartWWDOGTask, NULL, &WWDOG_Task_attributes);
-
   /* creation of SensorTask */
   SensorTaskHandle = osThreadNew(StartSensorTask, NULL, &SensorTask_attributes);
 
   /* creation of W25Q64Task */
   W25Q64TaskHandle = osThreadNew(StartW25Q64Task, NULL, &W25Q64Task_attributes);
 
+  /* creation of HardwareInitTask */
+  HardwareInitTaskHandle = osThreadNew(StartHardwareInitTask, NULL, &HardwareInitTask_attributes);
+
+  /* creation of LvHandlerTask */
+  LvHandlerTaskHandle = osThreadNew(StartLvHandlerTask, NULL, &LvHandlerTask_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
+
+  /* creation of BootEvent */
+  BootEventHandle = osEventFlagsNew(&BootEvent_attributes);
 
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
@@ -427,24 +436,6 @@ __weak void StartSleepTask(void *argument)
   /* USER CODE END StartSleepTask */
 }
 
-/* USER CODE BEGIN Header_StartWWDOGTask */
-/**
-* @brief Function implementing the WWDOG_Task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartWWDOGTask */
-__weak void StartWWDOGTask(void *argument)
-{
-  /* USER CODE BEGIN StartWWDOGTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END StartWWDOGTask */
-}
-
 /* USER CODE BEGIN Header_StartSensorTask */
 /**
 * @brief Function implementing the SensorTask thread.
@@ -479,6 +470,42 @@ __weak void StartW25Q64Task(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartW25Q64Task */
+}
+
+/* USER CODE BEGIN Header_StartHardwareInitTask */
+/**
+* @brief Function implementing the HardwareInitTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartHardwareInitTask */
+__weak void StartHardwareInitTask(void *argument)
+{
+  /* USER CODE BEGIN StartHardwareInitTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartHardwareInitTask */
+}
+
+/* USER CODE BEGIN Header_StartLvHandlerTask */
+/**
+* @brief Function implementing the LvHandlerTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartLvHandlerTask */
+__weak void StartLvHandlerTask(void *argument)
+{
+  /* USER CODE BEGIN StartLvHandlerTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartLvHandlerTask */
 }
 
 /* IdleTimerCallback function */

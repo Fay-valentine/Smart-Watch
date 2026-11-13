@@ -8,17 +8,15 @@
 #include <string.h>
 
 #include "cmsis_os2.h"
+#include "HardwareInitTask.h"
 #include "HardWare_DataAccess.h"
 #include "MessagePage_Inbox.h"
 #include "Serial_command.h"
 #include "MessagePage_Inbox.h"
+
 extern osMessageQueueId_t W25Q64QueueHandle;
 extern osThreadId_t MsgInbox_TaskHandle;
-
-typedef struct {
-    uint8_t want_msg_num;
-    uint8_t got_msg_num;
-} ReadMsgCtx_t;
+extern osEventFlagsId_t BootEventHandle;
 
 ReadMsgCtx_t read_msg_ctx={
     .got_msg_num = 0,
@@ -27,28 +25,16 @@ ReadMsgCtx_t read_msg_ctx={
 
 StorageReq_t request;
 
-uint8_t W25Q64_Log_Foreach_Read_MsgInbox_cb(uint8_t* payload,uint16_t payload_len,void* arg);
 
 void StartW25Q64Task(void *argument)
 {
     /* USER CODE BEGIN StartW25Q64Task */
+    //等待初始化完成
+    osEventFlagsWait(BootEventHandle,
+    BOOT_EVT_STORAGE_READY,
+    osFlagsWaitAll|osFlagsNoClear,
+    osWaitForever);
 
-
-    HWInterface.W25Q64.Init();
-    uint8_t failed_region_num=HWInterface.W25Q64.Log_Init_AllRegion();
-    if (failed_region_num>0)
-    {
-        Serial_Printf("[W25Q64] log init failed, failed region num=%u\r\n", failed_region_num);
-    }
-    //获取设置的时间和日期
-    HWInterface.W25Q64.RestoreDateTime();
-
-    //获取最近的五条消息
-    HWInterface.W25Q64.Log_Foreach_Read(W25Q64_REGION_MSG_INBOX,W25Q64_Log_Foreach_Read_MsgInbox_cb,&read_msg_ctx);
-    Serial_Printf("[W25Q64] inbox restored, got=%u msg(s)\r\n", read_msg_ctx.got_msg_num);
-
-    //恢复完成，放行MsgInbox_Task搬运新消息
-    osThreadFlagsSet(MsgInbox_TaskHandle, W25Q64_MSG_INBOX_RESTORED_FLAG);
 
     /* Infinite loop */
     for(;;)
