@@ -7,6 +7,8 @@
 
 #include <stdbool.h>
 
+#include "Flash_Store.h"
+
 #define HW_USE_HARDWARE     1
 
 #if HW_USE_HARDWARE

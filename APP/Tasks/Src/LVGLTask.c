@@ -13,7 +13,7 @@
 #include "IdleMeasure_Task.h"
 #include "Key_Task.h"
 #include "lvgl.h"
-#include "MessagePage_Inbox.h"
+#include "MessagePage_Event.h"
 #include "Message_Inbox_Task.h"
 #include "PageBack_Task.h"
 #include "PageManager.h"

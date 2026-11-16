@@ -1,15 +1,16 @@
 //
-// Created by a1191 on 2026/9/22.
+// Created by a1191 on 2026/11/13.
 //
 
-#include "../Inc/MessagePage_Inbox.h"
-#include "lvgl.h"
-#include "screens/ui_MessagePage.h"
-#include <string.h>
+#include "Message_Inbox.h"
+
+#include "Serial.h"
 #include "FreeRTOS.h"
-#include "SerialTask.h"
-#include "Serial_command.h"
+#include <string.h>
+
 #include "task.h"
+
+
 
 MessagePage_Inbox_t message_page_inbox;
 
@@ -97,31 +98,5 @@ uint8_t MessagePage_Inbox_MsgQueue_To_MsgInbox(MessagePage_Inbox_t* messagePage_
         new_msg_count++;
         MessagePage_Inbox_PushNewMsg(messagePage_inbox, &msg);
     }
-    return new_msg_count;
-}
-
-/**
- * @brief 将消息收件箱中的消息 刷新到 消息窗口
- */
-void MessagePage_render(const MessagePage_Inbox_t* messagePage_inbox)
-{
-    /* 存"指向全局变量的指针"而非控件地址本身：
-   页面销毁重建后，透过它读到的永远是最新的控件指针（同 MenuEntry_t 的技巧） */
-    lv_obj_t **labels[MSG_WINDOWS_NUM] = { &ui_Message1,&ui_Message2,&ui_Message3,&ui_Message4,&ui_Message5 };
-
-    //将消息刷新到消息窗口
-    for (int i = 0; i < MSG_WINDOWS_NUM; ++i)
-    {
-        //显示msg_num个窗口，并检测字符串不为空
-        if (i<messagePage_inbox->msg_num && messagePage_inbox->msg_list[i].text[0]!='\0')
-        {
-            lv_label_set_text(*labels[i], messagePage_inbox->msg_list[i].text);     // 放消息
-            //lv_obj_clear_flag(*btns[i], LV_OBJ_FLAG_HIDDEN);   // 显示窗
-        }
-        else
-        {
-            lv_label_set_text(*labels[i], "");                 // 删消息
-            //lv_obj_add_flag(*btns[i], LV_OBJ_FLAG_HIDDEN);      // 隐藏窗
-        }
-    }
+    return new_msg_count > 5 ? 5 : new_msg_count;
 }

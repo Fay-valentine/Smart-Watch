@@ -3,14 +3,15 @@
 //
 
 #include "../Inc/Message_Inbox_Task.h"
-#include "MessagePage_Inbox.h"
+#include "MessagePage_Event.h"
 #include "cmsis_os2.h"
 #include <stdbool.h>
 
+#include "Flash_Store.h"
 #include "HardwareInitTask.h"
 #include "IdleMeasure_Task.h"
 #include "lvgl.h"
-#include "Serial_command.h"
+#include "Serial.h"
 #include "screens/ui_MessagePage.h"
 #include "user_TasksInit.h"
 #include "W25Q64.h"

@@ -11,7 +11,7 @@
 #include "PageManager.h"
 #include "Pages.h"
 #include "SerialTask.h"
-#include "Serial_command.h"
+#include "Serial.h"
 #include "screens/ui_EnvironmentPage.h"
 
 extern osThreadId_t IdleMonitorTaskHandle;

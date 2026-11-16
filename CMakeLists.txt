@@ -51,7 +51,7 @@ set(BSP_SOURCES
         BSP/Bluetooth/Bluetooth.c
         BSP/DHT20/dht20.c
         BSP/W25Q64/W25Q64.c
-        BSP/Serial/Serial_command.c
+        BSP/Serial/Serial.c
         BSP/MPU6050/mpu6050.c
         BSP/MPU6050/eMPL/inv_mpu.c
         BSP/MPU6050/eMPL/inv_mpu_dmp_motion_driver.c
@@ -102,10 +102,16 @@ set(UI_FUNCTION_SOURCES
         APP/GUI/UI_Function/Src/StopwatchPage_Event.c
         APP/GUI/UI_Function/Src/SetDatePage_Event.c
         APP/GUI/UI_Function/Src/SetTimePage_Event.c
-        APP/GUI/UI_Function/Src/MessagePage_Inbox.c
+        APP/GUI/UI_Function/Src/MessagePage_Event.c
         APP/GUI/UI_Function/Src/ScreenOffPage_Event.c
         APP/GUI/UI_Function/Src/EnvironmentPage_Event.c
         APP/GUI/UI_Function/Src/StepsCountPage_Event.c
+)
+
+set(APP_SERVICES_SOURCES
+        APP/Services/Message_Inbox/Message_Inbox.c
+        APP/Services/Flash_Store/Flash_Store.c
+        APP/Services/Serial_Command/Serial_Command.c
 )
 
 set(LVGL_PORT_SOURCES
@@ -131,6 +137,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
         ${SYSTEM_SOURCES}
         ${GUI_SOURCES}
         ${TASKS_SOURCES}
+        ${APP_SERVICES_SOURCES}
         ${LVGL_PORT_SOURCES}
         ${LVGL_SRC_SOURCES}
         ${MID_FUNCTION_SOURCES}
@@ -155,6 +162,9 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         BSP/MPU6050/eMPL
         System
         APP/Tasks/Inc
+        APP/Services/Message_Inbox
+        APP/Services/Flash_Store
+        APP/Services/Serial_Command
         APP/GUI/UI_Function/Inc
         APP/GUI/ui_set
         Mid_Function

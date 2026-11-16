@@ -6,7 +6,7 @@
 #include "SettingsPage_Event.h"
 #include "ControlCenterPage_Event.h"
 #include "EnvironmentPage_Event.h"
-#include "MessagePage_Inbox.h"
+#include "MessagePage_Event.h"
 #include "ScreenOffPage_Event.h"
 #include "SetDatePage_Event.h"
 #include "SetTimePage_Event.h"

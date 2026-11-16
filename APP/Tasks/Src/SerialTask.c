@@ -7,10 +7,11 @@
 #include "usart.h"
 #include <stdio.h>
 #include <stdarg.h>
-#include "Serial_command.h"
+#include "Serial.h"
 #include "HardWare_DataAccess.h"
 #include "Bluetooth.h"
-#include "MessagePage_Inbox.h"
+#include "MessagePage_Event.h"
+#include "Serial_Command.h"
 
 
 void StartSerialTask(void *argument)

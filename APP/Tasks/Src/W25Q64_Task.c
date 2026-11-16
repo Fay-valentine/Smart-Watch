@@ -10,9 +10,9 @@
 #include "cmsis_os2.h"
 #include "HardwareInitTask.h"
 #include "HardWare_DataAccess.h"
-#include "MessagePage_Inbox.h"
-#include "Serial_command.h"
-#include "MessagePage_Inbox.h"
+#include "MessagePage_Event.h"
+#include "Serial.h"
+#include "MessagePage_Event.h"
 
 extern osMessageQueueId_t W25Q64QueueHandle;
 extern osThreadId_t MsgInbox_TaskHandle;

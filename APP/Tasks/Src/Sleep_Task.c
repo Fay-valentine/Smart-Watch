@@ -16,7 +16,7 @@
 #include "SerialTask.h"
 #include "Bluetooth.h"
 #include "main.h"
-#include "Serial_command.h"
+#include "Serial.h"
 #include "stm32f4xx_it.h"
 
 extern osThreadId_t LvHandlerTaskHandle;

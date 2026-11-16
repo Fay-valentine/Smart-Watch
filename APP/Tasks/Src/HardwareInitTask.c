@@ -19,7 +19,7 @@
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
 #include "PageManager.h"
-#include "Serial_command.h"
+#include "Serial.h"
 #include "tim.h"
 #include "W25Q64_Task.h"
 

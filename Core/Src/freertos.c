@@ -25,6 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "Flash_Store.h"
 #include "user_TasksInit.h"
 #include "LVGLTask.h"
 #include "W25Q64.h"

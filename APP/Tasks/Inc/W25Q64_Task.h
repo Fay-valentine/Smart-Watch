@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 
-#include "MessagePage_Inbox.h"
+#include "MessagePage_Event.h"
 
 uint8_t W25Q64_Log_Foreach_Read_MsgInbox_cb(uint8_t* payload,uint16_t payload_len,void* arg);
 

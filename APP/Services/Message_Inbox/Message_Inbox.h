@@ -1,11 +1,10 @@
 //
-// Created by a1191 on 2026/9/22.
+// Created by a1191 on 2026/11/13.
 //
 
-#ifndef INC_10_WATCH_MESSAGEPAGE_INBOX_H
-#define INC_10_WATCH_MESSAGEPAGE_INBOX_H
+#ifndef INC_10_WATCH_MESSAGE_INBOX_H
+#define INC_10_WATCH_MESSAGE_INBOX_H
 
-#include <stdbool.h>
 #include <stdint.h>
 #include "cmsis_os2.h"
 
@@ -31,6 +30,5 @@ void MessagePage_Inbox_Init(MessagePage_Inbox_t* messagePage_inbox);
 void MessagePage_Inbox_PushNewMsg(MessagePage_Inbox_t* messagePage_inbox, const Msg_t* msg);
 void MessagePage_Inbox_CopyMsgFromISR(const MessagePage_Inbox_t* messagePage_inbox, const char* data, uint16_t size);
 uint8_t MessagePage_Inbox_MsgQueue_To_MsgInbox(MessagePage_Inbox_t* messagePage_inbox);
-void MessagePage_render(const MessagePage_Inbox_t* messagePage_inbox);
 
-#endif //INC_10_WATCH_MESSAGEPAGE_INBOX_H
+#endif //INC_10_WATCH_MESSAGE_INBOX_H
